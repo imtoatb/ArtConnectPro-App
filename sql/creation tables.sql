@@ -10,7 +10,7 @@ CREATE TABLE ArtworkTag (
 
 CREATE TABLE Artist (
     artist_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50),
+    name VARCHAR(150),
     bio VARCHAR(50),
     birthYear INT,
     contactEmail VARCHAR(50),
@@ -85,7 +85,7 @@ CREATE TABLE Exhibition (
 
 CREATE TABLE Artwork (
     artwork_id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(50),
+    title VARCHAR(150),
     creationYear INT,
     type VARCHAR(50),
     medium VARCHAR(50),
