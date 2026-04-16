@@ -57,12 +57,40 @@ INSERT INTO Artist (name, bio, birthYear, isActive, city) VALUES
 ('Giotto di Bondone','Proto-Renaissance',1267,FALSE,'Florence'),
 ('Duccio di Buoninsegna','Sienese painter',1255,FALSE,'Siena');
 
+INSERT INTO Artist 
+(name, bio, birthYear, contactEmail, city, isActive, phone, website, socialMedia)
+VALUES
+('Cecily Brown','Contemporary British painter',1969,'contact@cecilybrownstudio.com','London',TRUE,'+44 20 7946 0958','www.cecilybrown.com','instagram.com/cecilybrown'),
+('Julie Mehretu','Ethiopian-American painter',1970,'info@mehretustudio.com','New York',TRUE,'+1 212 555 0191','www.juliemehretu.com','instagram.com/juliemehretu'),
+('Mark Bradford','American contemporary artist',1961,'studio@markbradford.com','Los Angeles',TRUE,'+1 310 555 0112','www.markbradfordstudio.com','instagram.com/markbradford'),
+('Njideka Akunyili Crosby','Nigerian visual artist',1983,'contact@njideka.com','Los Angeles',TRUE,'+1 323 555 0147','www.njideka.com','instagram.com/njideka'),
+('Jordan Casteel','American painter',1989,'info@jordan-casteel.com','New York',TRUE,'+1 917 555 0183','www.jordancasteel.com','instagram.com/jordancasteel');
+
+UPDATE Artist
+SET 
+contactEmail = CONCAT(LOWER(REPLACE(name,' ','_')), '@artlegacy.org'),
+phone = CONCAT('+33 1 55 ', FLOOR(RAND()*9000)+1000),
+website = CONCAT('www.', LOWER(REPLACE(name,' ','-')), '.org'),
+socialMedia = CONCAT('instagram.com/', LOWER(REPLACE(name,' ','_')))
+WHERE artist_id IN (
+    SELECT artist_id FROM (
+        SELECT artist_id 
+        FROM Artist
+        WHERE isActive = FALSE
+        ORDER BY RAND()
+        LIMIT 10
+    ) AS tmp
+);
+
 INSERT INTO has_a_style VALUES
 -- Painting (1)
 (1,1),(2,1),(3,1),(4,1),(5,1),(6,1),(7,1),(8,1),(9,1),(10,1),
 (11,1),(12,1),(13,1),(14,1),(15,1),(16,1),(17,1),(18,1),(19,1),(20,1),
 (36,1),(37,1),(38,1),(39,1),(40,1),(41,1),(42,1),(43,1),(44,1),(45,1),
 (46,1),(47,1),(48,1),(49,1),(50,1),
+
+-- ➕ NEW alive painters (Painting)
+(51,1),(52,1),(53,1),(54,1),(55,1),
 
 -- Sculpture (2)
 (21,2),(22,2),(23,2),(24,2),(25,2),
@@ -73,11 +101,29 @@ INSERT INTO has_a_style VALUES
 -- Decorative / ancient (5)
 (31,5),(32,5),(33,3),(34,5),(35,5);
 
-INSERT INTO Gallery (name, address, ownerName, rating)
-VALUES ('Metropolitan Museum', 'New York', 'Met', 4.90);
+INSERT INTO Gallery (name, address, ownerName, rating, website) VALUES
+('Metropolitan Museum','New York','Met',4.90,'www.metmuseum.org'),
+('Louvre Contemporary','Paris','French State',4.85,'www.louvre.fr'),
+('Tate Modern','London','Tate Group',4.75,'www.tate.org.uk'),
+('Uffizi Gallery','Florence','Italian State',4.80,'www.uffizi.it'),
+('MoMA','New York','MoMA Board',4.88,'www.moma.org'),
+('National Gallery','London','UK Government',4.70,'www.nationalgallery.org.uk'),
+('Berlin Art Space','Berlin','Berlin City',4.60,'www.berlinart.de'),
+('Tokyo Art Center','Tokyo','Tokyo Arts Council',4.65,'www.tokyoart.jp'),
+('Madrid Fine Arts','Madrid','Spanish Ministry',4.72,'www.madridfinearts.es'),
+('Amsterdam Rijks Studio','Amsterdam','Rijksmuseum',4.78,'www.rijksmuseum.nl');
 
-INSERT INTO Exhibition (title, startDate, endDate, gallery_id)
-VALUES ('Met Selected Works', '2000-01-01', '2100-01-01', 1);
+INSERT INTO Exhibition (title, startDate, endDate, gallery_id) VALUES
+('Impressionist Highlights','2024-01-01','2026-12-31',2),
+('Modern Abstract Forms','2025-03-01','2026-10-01',5),
+('Renaissance Masters','2023-05-01','2026-08-01',4),
+('Baroque and Beyond','2024-06-01','2026-09-01',6),
+('Photography and Society','2025-01-15','2026-07-15',8),
+('Ancient Civilizations','2023-02-01','2026-05-01',10),
+('Sculpture in Motion','2024-04-01','2026-11-01',7),
+('Women in Art','2025-02-01','2026-12-01',1),
+('Urban and Street Art','2025-06-01','2026-12-31',3),
+('Asian Art Traditions','2024-03-01','2026-09-30',9);
 
 INSERT INTO Artwork 
 (title, creationYear, type, medium, dimensions, status, artist_id, exhib_id)
@@ -140,6 +186,35 @@ VALUES
 ('Fresco Fragment',1305,'Painting','Fresco',NULL,'EXHIBITED',49,1),
 ('Altarpiece Panel',1310,'Painting','Tempera',NULL,'EXHIBITED',50,1);
 
+INSERT INTO Artwork 
+(title, creationYear, type, medium, dimensions, description, price, status, artist_id, exhib_id)
+VALUES
+
+-- Cecily Brown (51)
+('Chaotic Figure Field',2019,'Painting','Oil on canvas','210x170 cm',
+'Expressive abstraction exploring fragmented human forms',
+950000,'EXHIBITED',51,2),
+
+-- Julie Mehretu (52)
+('Urban Palimpsest',2020,'Painting','Ink and acrylic on canvas','260x200 cm',
+'Layered architectural abstraction inspired by global cities',
+1300000,'EXHIBITED',52,2),
+
+-- Mark Bradford (53)
+('City Fragments',2018,'Mixed Media','Paper, acrylic, collage','240x180 cm',
+'Textural urban landscape built from recycled materials',
+1100000,'EXHIBITED',53,2),
+
+-- Njideka Akunyili Crosby (54)
+('Domestic Memory Scene',2021,'Painting','Acrylic and transfers','200x150 cm',
+'Intimate domestic scene blending Nigerian and American culture',
+1200000,'EXHIBITED',54,2),
+
+-- Jordan Casteel (55)
+('Portrait of a Quiet Moment',2022,'Painting','Oil on canvas','180x140 cm',
+'Contemporary portrait capturing everyday emotional presence',
+800000,'EXHIBITED',55,2);
+
 INSERT INTO ArtworkTag (name) VALUES
 ('Impressionism'),
 ('Modern Art'),
@@ -180,3 +255,17 @@ INSERT INTO Review (rating,reviewDate,comment,member_id,artwork_id) VALUES
 (4.5,'2026-01-01','Excellent piece',1,1),
 (4.0,'2026-01-02','Very interesting',2,10),
 (5.0,'2026-01-03','Outstanding',3,20);
+
+INSERT INTO Gallery (name, address, ownerName, rating, website) VALUES
+('Louvre Modern Wing','Paris','French State',4.9,'www.louvre.fr'),
+('MoMA Contemporary','New York','MoMA',4.8,'www.moma.org'),
+('Tate Modern','London','Tate',4.7,'www.tate.org.uk'),
+('Ueno Art Space','Tokyo','Tokyo Arts',4.6,'www.ueno-art.jp'),
+('Berlin Art Hub','Berlin','City of Berlin',4.5,'www.berlinart.de');
+
+INSERT INTO Exhibition (title, startDate, endDate, gallery_id) VALUES
+('Impressionist Masters','2025-01-01','2026-12-31',1),
+('Modern Abstractions','2025-03-01','2026-11-30',2),
+('Sculpture Forms','2025-05-01','2026-10-01',3),
+('Photography and Reality','2025-06-01','2026-09-01',4),
+('Ancient to Medieval','2025-02-01','2026-08-01',5);
