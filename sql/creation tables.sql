@@ -68,7 +68,7 @@ CREATE TABLE Booking (
     workshop_id INT,
     member_id INT,
     FOREIGN KEY (workshop_id) REFERENCES Workshop(workshop_id),
-    FOREIGN KEY (member_id) REFERENCES CommMember(member_id)
+    FOREIGN KEY (member_id) REFERENCES CommunityMember(member_id)
 );
 
 CREATE TABLE Exhibition (
@@ -106,7 +106,7 @@ CREATE TABLE Review (
     comment VARCHAR(50),
     member_id INT,
     artwork_id INT,
-    FOREIGN KEY (member_id) REFERENCES CommMember(member_id),
+    FOREIGN KEY (member_id) REFERENCES CommunityMember(member_id),
     FOREIGN KEY (artwork_id) REFERENCES Artwork(artwork_id)
 );
 
@@ -131,5 +131,5 @@ CREATE TABLE likes_a_style (
     member_id INT,
     PRIMARY KEY (discipline_id, member_id),
     FOREIGN KEY (discipline_id) REFERENCES Discipline(discipline_id),
-    FOREIGN KEY (member_id) REFERENCES CommMember(member_id)
+    FOREIGN KEY (member_id) REFERENCES CommunityMember(member_id)
 );
