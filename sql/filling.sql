@@ -186,6 +186,37 @@ VALUES
 ('Fresco Fragment',1305,'Painting','Fresco',NULL,'EXHIBITED',49,1),
 ('Altarpiece Panel',1310,'Painting','Tempera',NULL,'EXHIBITED',50,1);
 
+UPDATE Artwork
+SET
+dimensions = COALESCE(dimensions,
+    CASE type
+        WHEN 'Painting' THEN '100x80 cm'
+        WHEN 'Sculpture' THEN '150x60x60 cm'
+        WHEN 'Photograph' THEN '80x60 cm'
+        WHEN 'Print' THEN '60x45 cm'
+        ELSE '90x70 cm'
+    END
+),
+
+description = COALESCE(description,
+    CONCAT(
+        'Artwork from the Met-inspired collection, created in ',
+        creationYear,
+        ', representing ',
+        LOWER(type),
+        ' in a classical museum context.'
+    )
+),
+
+price = COALESCE(price,
+    CASE
+        WHEN type = 'Painting' THEN 50000 + (creationYear % 100) * 2000
+        WHEN type = 'Sculpture' THEN 80000 + (creationYear % 100) * 3000
+        WHEN type = 'Photograph' THEN 20000 + (creationYear % 100) * 1000
+        WHEN type = 'Print' THEN 15000 + (creationYear % 100) * 800
+        ELSE 30000
+    END);
+
 INSERT INTO Artwork 
 (title, creationYear, type, medium, dimensions, description, price, status, artist_id, exhib_id)
 VALUES
@@ -240,32 +271,87 @@ INSERT INTO CommunityMember (name,email,birthYear,membershipType,city) VALUES
 ('David Leroy','david@mail.com',1985,'FREE','Marseille');
 
 INSERT INTO Workshop 
-(title,w_date,durationMinutes,maxParticipants,price,artist_id)
+(title, w_date, durationMinutes, maxParticipants, price, description, location, level, artist_id)
 VALUES
-('Impressionist Painting','2026-06-01 10:00:00',120,10,50,2),
-('Modern Sculpture','2026-06-03 14:00:00',150,8,70,21),
-('Photography Basics','2026-06-05 09:00:00',120,12,40,26);
 
-INSERT INTO Booking (booking_date,paymentStatus,workshop_id,member_id) VALUES
-(NOW(),'PAID',1,1),
-(NOW(),'PENDING',2,2),
-(NOW(),'PAID',3,3);
+('Impressionist Painting','2026-06-01 10:00:00',120,10,50,
+ 'Learn impressionist techniques and color blending',
+ 'Paris Studio','BEGINNER',2),
+
+('Modern Sculpture','2026-06-03 14:00:00',150,8,70,
+ 'Hands-on introduction to modern sculpting techniques',
+ 'New York Workshop Space','INTERMEDIATE',21),
+
+('Photography Basics','2026-06-05 09:00:00',120,12,40,
+ 'Introduction to composition, lighting and framing in photography',
+ 'Berlin Photo Lab','BEGINNER',26);
+
+INSERT INTO Booking (booking_date, paymentStatus, workshop_id, member_id)
+VALUES
+
+-- Early bookings (2026-01 to 2026-02)
+('2026-01-05 10:15:00','PAID',1,1),
+('2026-01-08 14:30:00','PAID',2,2),
+('2026-01-10 09:45:00','PENDING',3,3),
+('2026-01-12 11:20:00','PAID',1,2),
+
+-- Mid bookings (2026-02 to 2026-03)
+('2026-02-03 16:10:00','PAID',2,1),
+('2026-02-07 13:00:00','CANCELLED',3,2),
+('2026-02-10 10:00:00','PAID',1,3),
+('2026-02-15 18:40:00','PAID',2,3),
+
+-- Late bookings (2026-03 to 2026-04)
+('2026-03-01 09:30:00','PAID',3,1),
+('2026-03-05 15:25:00','PENDING',1,2),
+('2026-03-10 12:00:00','PAID',2,3),
+('2026-03-15 14:45:00','PAID',3,2),
+
+-- Recent bookings (2026-04)
+('2026-04-01 10:10:00','PAID',1,1),
+('2026-04-05 11:55:00','PAID',2,2),
+('2026-04-10 17:20:00','PENDING',3,3),
+('2026-04-12 09:00:00','PAID',1,3);
 
 INSERT INTO Review (rating,reviewDate,comment,member_id,artwork_id) VALUES
 (4.5,'2026-01-01','Excellent piece',1,1),
 (4.0,'2026-01-02','Very interesting',2,10),
 (5.0,'2026-01-03','Outstanding',3,20);
 
-INSERT INTO Gallery (name, address, ownerName, rating, website) VALUES
-('Louvre Modern Wing','Paris','French State',4.9,'www.louvre.fr'),
-('MoMA Contemporary','New York','MoMA',4.8,'www.moma.org'),
-('Tate Modern','London','Tate',4.7,'www.tate.org.uk'),
-('Ueno Art Space','Tokyo','Tokyo Arts',4.6,'www.ueno-art.jp'),
-('Berlin Art Hub','Berlin','City of Berlin',4.5,'www.berlinart.de');
+INSERT INTO Gallery 
+(name, address, ownerName, openingHours, contactPhone, rating, website)
+VALUES
 
-INSERT INTO Exhibition (title, startDate, endDate, gallery_id) VALUES
-('Impressionist Masters','2025-01-01','2026-12-31',1),
-('Modern Abstractions','2025-03-01','2026-11-30',2),
-('Sculpture Forms','2025-05-01','2026-10-01',3),
-('Photography and Reality','2025-06-01','2026-09-01',4),
-('Ancient to Medieval','2025-02-01','2026-08-01',5);
+('Louvre Modern Wing','Paris','French State','09:00-18:00','+33 1 40 20 50 50',4.90,'www.louvre.fr'),
+
+('MoMA Contemporary','New York','MoMA','10:30-17:30','+1 212 708 9400',4.80,'www.moma.org'),
+
+('Tate Modern','London','Tate','10:00-18:00','+44 20 7887 8888',4.70,'www.tate.org.uk'),
+
+('Ueno Art Space','Tokyo','Tokyo Arts','09:30-17:00','+81 3 3823 6921',4.60,'www.ueno-art.jp'),
+
+('Berlin Art Hub','Berlin','City of Berlin','10:00-19:00','+49 30 266 424242',4.50,'www.berlinart.de');
+
+INSERT INTO Exhibition 
+(title, startDate, endDate, description, curatorName, theme, gallery_id)
+VALUES
+
+('Impressionist Masters','2025-01-01','2026-12-31',
+ 'Key impressionist works highlighting light and movement',
+ 'Jean Dupont','Impressionism',1),
+
+('Modern Abstractions','2025-03-01','2026-11-30',
+ 'Exploration of abstract expression in modern art',
+ 'Sarah Collins','Abstract Art',2),
+
+('Sculpture Forms','2025-05-01','2026-10-01',
+ 'Study of volume, shape and material in sculpture',
+ 'Marco Bianchi','Sculpture',3),
+
+('Photography and Reality','2025-06-01','2026-09-01',
+ 'Photographic works exploring perception and reality',
+ 'Emily Carter','Photography',4),
+
+('Ancient to Medieval','2025-02-01','2026-08-01',
+ 'Artworks spanning ancient civilizations to medieval period',
+ 'Hiroshi Tanaka','Historical Art',5);
