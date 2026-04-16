@@ -197,7 +197,6 @@ dimensions = COALESCE(dimensions,
         ELSE '90x70 cm'
     END
 ),
-
 description = COALESCE(description,
     CONCAT(
         'Artwork from the Met-inspired collection, created in ',
@@ -207,7 +206,6 @@ description = COALESCE(description,
         ' in a classical museum context.'
     )
 ),
-
 price = COALESCE(price,
     CASE
         WHEN type = 'Painting' THEN 50000 + (creationYear % 100) * 2000
@@ -215,7 +213,8 @@ price = COALESCE(price,
         WHEN type = 'Photograph' THEN 20000 + (creationYear % 100) * 1000
         WHEN type = 'Print' THEN 15000 + (creationYear % 100) * 800
         ELSE 30000
-    END);
+    END)
+WHERE artwork_id > 0;
 
 INSERT INTO Artwork 
 (title, creationYear, type, medium, dimensions, description, price, status, artist_id, exhib_id)
