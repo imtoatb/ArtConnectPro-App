@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="873716a4-c4c3-4aca-ba64-d8dff1940242" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/ArtistDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/ArtistDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/ArtworkDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/ArtworkDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/CommunityMemberDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/CommunityMemberDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/ExhibitionDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/ExhibitionDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/GalleryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/GalleryDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/WorkshopDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/artconnect/dao/WorkshopDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/artconnect/persistence/JdbcArtistDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/artconnect/persistence/JdbcArtistDao.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Fullbust505&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/imtoatb/ArtConnectPro-App.git&quot;,
+    &quot;accountId&quot;: &quot;42fe680b-f96a-4685-bb35-3c6315160df2&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="3DOJSMiCf99gzOrxzBvUdYZm6Nt" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "to.speed.mode.migration.done": "true",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="873716a4-c4c3-4aca-ba64-d8dff1940242" name="Changes" comment="" />
+      <created>1778147187022</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1778147187022</updated>
+      <workItem from="1778147192887" duration="240000" />
+      <workItem from="1778149996878" duration="166000" />
+      <workItem from="1778150831194" duration="1417000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
