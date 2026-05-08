@@ -3,14 +3,15 @@ package com.project.artconnect.dao;
 import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.util.ConnectionManager;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface ExhibitionDao {
-    List<Exhibition> findAll(ConnectionManager conn);
+    List<Exhibition> findAll(Connection conn);
 
-    void save(ConnectionManager conn, Exhibition exhibition);
+    void save(Connection conn, Exhibition exhibition);
 
-    void update(ConnectionManager conn, Exhibition exhibition);
+    void update(Connection conn, Exhibition exhibition);
 
-    void delete(ConnectionManager conn, String title);
+    void delete(Connection conn, String title);
 }

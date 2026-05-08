@@ -3,16 +3,17 @@ package com.project.artconnect.dao;
 import com.project.artconnect.model.Artwork;
 import com.project.artconnect.util.ConnectionManager;
 
+import java.sql.Connection;
 import java.util.List;
 
 public interface ArtworkDao {
-    List<Artwork> findAll(ConnectionManager conn);
+    List<Artwork> findAll(Connection conn);
 
-    void save(ConnectionManager conn, Artwork artwork);
+    void save(Connection conn, Artwork artwork);
 
-    void update(ConnectionManager conn, Artwork artwork);
+    void update(Connection conn, Artwork artwork);
 
-    void delete(ConnectionManager conn, String title);
+    void delete(Connection conn, String title);
 
-    List<Artwork> findByArtistName(ConnectionManager conn, String artistName);
+    List<Artwork> findByArtistName(Connection conn, String artistName);
 }

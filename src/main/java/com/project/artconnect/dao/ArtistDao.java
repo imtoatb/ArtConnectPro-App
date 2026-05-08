@@ -3,19 +3,20 @@ package com.project.artconnect.dao;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.util.ConnectionManager;
 
+import java.sql.Connection;
 import java.util.List;
 
 /**
  * Data Access Object for Artist entity.
  */
 public interface ArtistDao {
-    List<Artist> findAll(ConnectionManager conn);
+    List<Artist> findAll(Connection conn);
 
-    void save(ConnectionManager conn, Artist artist);
+    void save(Connection conn, Artist artist);
 
-    void update(ConnectionManager conn, Artist artist);
+    void update(Connection conn, Artist artist);
 
-    void delete(ConnectionManager conn, String artistName);
+    void delete(Connection conn, String artistName);
 
-    List<Artist> findByCity(ConnectionManager conn, String city);
+    List<Artist> findByCity(Connection conn, String city);
 }
