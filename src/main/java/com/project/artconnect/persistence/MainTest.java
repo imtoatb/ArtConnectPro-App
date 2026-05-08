@@ -13,28 +13,24 @@ public class MainTest {
         Connection conn = null;
         
         try {
-            // Get connection
             conn = ConnectionManager.getConnection();
             JdbcArtworkDao artworkDao = new JdbcArtworkDao();
             
-            // TEST 1: findAll
-            System.out.println("=== TEST 1: findAll ===");
+            System.out.println("test 1: findAll");
             List<Artwork> artworks = artworkDao.findAll(conn);
-            System.out.println("Nombre d'oeuvres trouvées: " + artworks.size());
+            System.out.println("found: " + artworks.size());
             for (Artwork artwork : artworks) {
-                System.out.println("  - " + artwork.getTitle() + " par " + 
-                    (artwork.getArtist() != null ? artwork.getArtist().getName() : "Artiste inconnu"));
+                System.out.println("  - " + artwork.getTitle() + " by " + 
+                    (artwork.getArtist() != null ? artwork.getArtist().getName() : "unknown"));
             }
             
-            // TEST 2: findByArtistName
-            System.out.println("\n=== TEST 2: findByArtistName (Degas) ===");
+            System.out.println("\ntest 2: findByArtistName (Degas)");
             List<Artwork> degasWorks = artworkDao.findByArtistName(conn, "Degas");
             for (Artwork artwork : degasWorks) {
                 System.out.println("  - " + artwork.getTitle());
             }
             
-            // TEST 3: Save a new artwork
-            System.out.println("\n=== TEST 3: Save ===");
+            System.out.println("\ntest 3: save");
             Artist testArtist = new Artist();
             testArtist.setName("Claude Monet");
             
@@ -50,38 +46,33 @@ public class MainTest {
             newArtwork.setArtist(testArtist);
             
             artworkDao.save(conn, newArtwork);
-            System.out.println("✓ Oeuvre sauvegardée avec succès!");
+            System.out.println("saved");
             
-            // TEST 4: Verify save worked
-            System.out.println("\n=== TEST 4: Vérification de la sauvegarde ===");
+            System.out.println("\ntest 4: verify save");
             List<Artwork> allArtworks = artworkDao.findAll(conn);
-            System.out.println("Total après sauvegarde: " + allArtworks.size());
+            System.out.println("total after save: " + allArtworks.size());
             
-            // TEST 5: Update
-            System.out.println("\n=== TEST 5: Update ===");
+            System.out.println("\ntest 5: update");
             newArtwork.setPrice(55000.0);
-            newArtwork.setDescription("Description modifiée");
+            newArtwork.setDescription("updated description");
             artworkDao.update(conn, newArtwork);
-            System.out.println("✓ Oeuvre mise à jour avec succès!");
+            System.out.println("updated");
             
-            // TEST 6: Delete
-            System.out.println("\n=== TEST 6: Delete ===");
+            System.out.println("\ntest 6: delete");
             artworkDao.delete(conn, "Test Oeuvre Monet");
-            System.out.println("✓ Oeuvre supprimée avec succès!");
+            System.out.println("deleted");
             
-            // Final verification
             List<Artwork> finalList = artworkDao.findAll(conn);
-            System.out.println("\n=== FINAL ===");
-            System.out.println("Total final des oeuvres: " + finalList.size());
+            System.out.println("\ntotal final: " + finalList.size());
             
         } catch (SQLException e) {
-            System.err.println("Erreur base de données: " + e.getMessage());
+            System.err.println("database error: " + e.getMessage());
             e.printStackTrace();
         } finally {
             if (conn != null) {
                 try {
                     conn.close();
-                    System.out.println("\nConnexion fermée.");
+                    System.out.println("\nconnection closed");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
