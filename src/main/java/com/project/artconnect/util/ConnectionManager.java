@@ -1,14 +1,13 @@
 package com.project.artconnect.util;
-import com.project.artconnect.config.DatabaseConfig;
 
-import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.project.artconnect.config.DatabaseConfig;
 
 /**
  * Utility class to manage JDBC connections.
- * TODO: Students must implementation the getConnection logic.
  */
 public class ConnectionManager {
 
@@ -19,10 +18,6 @@ public class ConnectionManager {
      * @throws SQLException if connection fails
      */
     public static Connection getConnection() throws SQLException {
-        // TODO: Students should implement this using DatabaseConfig properties
-
-        try (Connection conn = DriverManager.getConnection(DatabaseConfig.URL, DatabaseConfig.USER, DatabaseConfig.PASSWORD)){
-            return conn;
-        }
+        return DriverManager.getConnection(DatabaseConfig.URL, DatabaseConfig.USER, DatabaseConfig.PASSWORD);
     }
 }
