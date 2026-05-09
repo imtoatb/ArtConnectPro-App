@@ -2,7 +2,6 @@ package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.ArtistDao;
 import com.project.artconnect.model.Artist;
-import com.project.artconnect.util.ConnectionManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
