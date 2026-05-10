@@ -59,7 +59,7 @@ public class JdbcExhibitionDao implements ExhibitionDao {
                 "VALUES (?, ?, ?, ?, ?)";        // initiate SQL query
 
         JdbcGalleryDao galleryDao = new JdbcGalleryDao();
-        Long gallery_id = galleryDao.findIdByName(conn, exhibition.getTitle());
+        Long gallery_id = galleryDao.findIdByTitle(conn, exhibition.getTitle());
 
         try (PreparedStatement ps = conn.prepareStatement(sql_statement)){      // prepare the query for the placeholders values
 
@@ -114,7 +114,7 @@ public class JdbcExhibitionDao implements ExhibitionDao {
     public void delete(Connection conn, String title){
         String sql_statement = "DELETE FROM Exhibition WHERE name = ?";        // initiate SQL query
 
-        try (PreparedStatement ps = conn.prepareStatement(sql_statement);){      // prepare the query for the placeholders values
+        try (PreparedStatement ps = conn.prepareStatement(sql_statement)){      // prepare the query for the placeholders values
 
             ps.setString(1, title);
 
