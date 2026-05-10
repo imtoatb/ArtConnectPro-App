@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class ArtistServiceImpl implements ArtistService {
     public Connection conn;
-    private JdbcArtistDao artist_dao = new JdbcArtistDao();
+    private final JdbcArtistDao artist_dao = new JdbcArtistDao();
 
     public ArtistServiceImpl(){
         try( Connection conn = ConnectionManager.getConnection()){
