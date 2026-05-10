@@ -2,6 +2,8 @@ package com.project.artconnect.service;
 
 import com.project.artconnect.model.Gallery;
 import com.project.artconnect.model.Exhibition;
+
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
