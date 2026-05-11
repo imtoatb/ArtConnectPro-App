@@ -196,5 +196,35 @@ public class JdbcArtistDao implements ArtistDao {
 
         return Optional.of(myArtist);
     }
+
+    public List<Artist> getAllActiveArtist(Connection conn){
+        String sql_statement = "CALL GetAllActiveArtists()";        // initiate SQL query
+        List<Artist> artists = new ArrayList<>();             // initiate result
+
+        try (PreparedStatement ps = conn.prepareStatement(sql_statement)){     // prepare the query for the placeholders values
+
+            try (ResultSet rs = ps.executeQuery()){                     // safely execute the query
+                while(rs.next()) {                                      // for each row of the executed query (so the final table given as output)
+                    artists.add(new Artist(
+                            rs.getString("name"),
+                            rs.getString("bio"),
+                            rs.getInt("birthYear"),
+                            rs.getString("contactEmail"),
+                            rs.getString("city")
+                    ));
+                }
+            } catch (Error e){                                          // handling errors just in case
+                System.out.println("Something went wrong with the query execution");
+                e.printStackTrace();
+            }
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Issue occurred with Connection: ");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Connection failed: " + e.getMessage());
+            System.err.println("Verify the URL, username, and password in ConnectionManager.");
+        }
+        return artists;
+    }
 }
 
