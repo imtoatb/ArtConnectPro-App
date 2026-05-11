@@ -148,19 +148,14 @@ DELIMITER ;
 
 -- Tells if an artist is active
 DELIMITER //
-CREATE FUNCTION GetArtistActiveStatus(p_artist_id INT)
-RETURNS VARCHAR(10)
-DETERMINISTIC
+CREATE PROCEDURE GetAllActiveArtists()
 BEGIN
-    DECLARE active_status VARCHAR(10);
-
-    SELECT IF(isActive, 'Active', 'Inactive') INTO active_status
-    FROM Artist
-    WHERE artist_id = p_artist_id;
-
-    RETURN active_status;
+    SELECT artist_id, name, email, phone, bio, isActive, 'Active' AS status FROM Artist
+    WHERE isActive = TRUE
+    ORDER BY name;
 END //
 DELIMITER ;
+
 
 
 -- Tells, for an choosen hour, which gallery are open
@@ -192,4 +187,4 @@ SELECT GetAverageArtworkRating(1) AS avg_rating;
 SELECT GetArtistActiveStatus(1) AS active_status;
 SELECT CountOpenGalleriesForHour('10:00:00') AS open_galleries;
 
-
+SELECT * FROM Artist;
