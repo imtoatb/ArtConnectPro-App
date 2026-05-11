@@ -2,6 +2,9 @@ package com.project.artconnect.service;
 
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Discipline;
+import com.project.artconnect.util.ConnectionManager;
+
+import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 

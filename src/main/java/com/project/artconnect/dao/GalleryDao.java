@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface GalleryDao {
     Optional<Gallery> findById(Connection conn, Long id);
 
+    Long findIdByTitle(Connection conn, String title);
+
     List<Gallery> findAll(Connection conn);
 }

@@ -1,7 +1,6 @@
 package com.project.artconnect.dao;
 
 import com.project.artconnect.model.CommunityMember;
-import com.project.artconnect.util.ConnectionManager;
 
 import java.sql.Connection;
 import java.util.List;

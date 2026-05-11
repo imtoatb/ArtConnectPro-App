@@ -5,6 +5,7 @@ import com.project.artconnect.util.ConnectionManager;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Data Access Object for Artist entity.
@@ -19,4 +20,6 @@ public interface ArtistDao {
     void delete(Connection conn, String artistName);
 
     List<Artist> findByCity(Connection conn, String city);
+
+    Optional<Artist> findById(Connection conn, Long id);
 }

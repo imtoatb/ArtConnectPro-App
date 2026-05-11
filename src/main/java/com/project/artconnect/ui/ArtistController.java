@@ -43,7 +43,7 @@ public class ArtistController {
         String query = searchField.getText();
         Discipline d = disciplineFilter.getValue();
         String dName = (d != null) ? d.getName() : null;
-        artistTable.setItems(FXCollections.observableArrayList(artistService.searchArtists(query, dName, null)));
+        artistTable.setItems(FXCollections.observableArrayList(artistService.searchArtists(query, dName, query)));
     }
 
     @FXML
