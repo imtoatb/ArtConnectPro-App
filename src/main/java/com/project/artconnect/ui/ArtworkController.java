@@ -2,7 +2,7 @@ package com.project.artconnect.ui;
 
 import com.project.artconnect.model.Artwork;
 import com.project.artconnect.service.ArtworkService;
-import com.project.artconnect.util.ServiceProvider;
+import com.project.artconnect.util.ServiceProviderBis;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ public class ArtworkController {
     @FXML
     private TableColumn<Artwork, String> artistColumn;
 
-    private final ArtworkService artworkService = ServiceProvider.getArtworkService();
+    private final ArtworkService artworkService = ServiceProviderBis.getArtworkService();
 
     @FXML
     public void initialize() {

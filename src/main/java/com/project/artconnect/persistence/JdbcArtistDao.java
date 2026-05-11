@@ -20,6 +20,16 @@ public class JdbcArtistDao implements ArtistDao {
 
     @Override
     public List<Artist> findAll(Connection conn) {
+        try {
+            if (conn.isClosed()) {
+                System.out.println("jdbc closed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Issue occurred with Connection: ");
+            e.printStackTrace();
+        }
+
+
         String sql_statement = "SELECT * FROM Artist";        // initiate SQL query
         List<Artist> artists = new ArrayList<>();             // initiate result
 
@@ -108,7 +118,7 @@ public class JdbcArtistDao implements ArtistDao {
     public void delete(Connection conn, String artistName) {
         String sql_statement = "DELETE FROM Artist WHERE name = ?";        // initiate SQL query
 
-        try (PreparedStatement ps = conn.prepareStatement(sql_statement);){      // prepare the query for the placeholders values
+        try (PreparedStatement ps = conn.prepareStatement(sql_statement)){      // prepare the query for the placeholders values
 
             ps.setString(1, artistName);
 

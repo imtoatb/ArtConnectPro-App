@@ -2,7 +2,7 @@ package com.project.artconnect.ui;
 
 import com.project.artconnect.model.CommunityMember;
 import com.project.artconnect.service.CommunityService;
-import com.project.artconnect.util.ServiceProvider;
+import com.project.artconnect.util.ServiceProviderBis;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -19,7 +19,7 @@ public class CommunityController {
     @FXML
     private TableColumn<CommunityMember, String> cityColumn;
 
-    private final CommunityService communityService = ServiceProvider.getCommunityService();
+    private final CommunityService communityService = ServiceProviderBis.getCommunityService();
 
     @FXML
     public void initialize() {

@@ -4,6 +4,7 @@ import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Discipline;
 import com.project.artconnect.service.ArtistService;
 import com.project.artconnect.util.ServiceProvider;
+import com.project.artconnect.util.ServiceProviderBis;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -25,7 +26,7 @@ public class ArtistController {
     @FXML
     private TableColumn<Artist, Integer> yearColumn;
 
-    private final ArtistService artistService = ServiceProvider.getArtistService();
+    private final ArtistService artistService = ServiceProviderBis.getArtistService();
 
     @FXML
     public void initialize() {

@@ -2,7 +2,6 @@ package com.project.artconnect.service.impl;
 
 import com.project.artconnect.model.Booking;
 import com.project.artconnect.model.CommunityMember;
-import com.project.artconnect.model.Gallery;
 import com.project.artconnect.model.Workshop;
 import com.project.artconnect.persistence.JdbcWorkshopDao;
 import com.project.artconnect.service.WorkshopService;
@@ -18,10 +17,12 @@ public class WorkshopServiceImpl implements WorkshopService {
     private final JdbcWorkshopDao workshopDao = new JdbcWorkshopDao();
 
     public WorkshopServiceImpl(){
-        try( Connection conn = ConnectionManager.getConnection()){
+        try{
+            Connection conn = ConnectionManager.getConnection();
             this.conn = conn;
         }
         catch(SQLException e){
+            System.out.println("why");
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
             System.err.println("WorkshopServiceImpl not instanciated");
         }

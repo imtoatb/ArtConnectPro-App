@@ -17,7 +17,8 @@ public class GalleryServiceImpl implements GalleryService {
     private final JdbcGalleryDao galleryDao = new JdbcGalleryDao();
 
     public GalleryServiceImpl(){
-        try( Connection conn = ConnectionManager.getConnection()){
+        try{
+            Connection conn = ConnectionManager.getConnection();
             this.conn = conn;
         }
         catch(SQLException e){

@@ -15,20 +15,46 @@ import java.util.stream.Collectors;
 public class ArtistServiceImpl implements ArtistService {
     public Connection conn;
     private final JdbcArtistDao artist_dao = new JdbcArtistDao();
+    private List<Artist> allArtists;
 
     public ArtistServiceImpl(){
-        try( Connection conn = ConnectionManager.getConnection()){
+        try{
+            Connection conn = ConnectionManager.getConnection();
             this.conn = conn;
         }
         catch(SQLException e){
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
             System.err.println("ArtistServiceImpl not instanciated");
         }
+        this.allArtists = getAllArtists();
 
+
+        /*
+        try {
+            if (conn.isClosed()) {
+                System.out.println("service constructeur closed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Issue occurred with Connection: ");
+            e.printStackTrace();
+        }*/
+
+    }
+
+    public void initData(){
+        System.out.println("Nothing");
     }
 
     @Override
     public List<Artist> getAllArtists(){
+        try {
+            if (conn.isClosed()) {
+                System.out.println("service closed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Issue occurred with Connection: ");
+            e.printStackTrace();
+        }
         return artist_dao.findAll(this.conn);
     }
 
@@ -59,8 +85,8 @@ public class ArtistServiceImpl implements ArtistService {
 
     public List<Artist> searchArtists(String query, String disciplineName, String city){
         Map<String, Artist> artists = new LinkedHashMap<>();
-        List<Artist> allArtists = getAllArtists();
-        for (Artist artist : allArtists){
+        //List<Artist> allArtists = getAllArtists();
+        for (Artist artist : this.allArtists){
             artists.put(artist.getName(), artist);
         }
 
