@@ -1,7 +1,7 @@
 USE ArtConnect;
 
 -- To verify that the workshop date is not in the past
-
+DROP TRIGGER IF EXISTS check_workshop_date;
 DELIMITER //
 CREATE TRIGGER check_workshop_date
 BEFORE Insert On Workshop FOR EACH ROW
@@ -14,6 +14,7 @@ DELIMITER ;
 
 
 -- Max capacity for the workshop
+DROP TRIGGER IF EXISTS check_workshop_capacity;
 DELIMITER // 
 CREATE TRIGGER check_workshop_capacity
 BEFORE INSERT ON Booking FOR EACH ROW
@@ -48,7 +49,7 @@ old_endDate DATE,
 new_endDate Date
 );
 
-
+DROP TRIGGER IF EXISTS audit_exhibition_changes;
 DELIMITER //
 CREATE TRIGGER audit_exhibition_changes
 AFTER UPDATE ON Exhibition
@@ -82,7 +83,7 @@ DELIMITER ;
     
     
 -- Tells us the nbof participants for a workshop
-
+DROP PROCEDURE IF EXISTS GetWorkshopParticipantsCount;
 DELIMITER //
 CREATE PROCEDURE GetWorkshopParticipantsCount(IN p_workshop_id INT)
 BEGIN
@@ -94,6 +95,7 @@ DELIMITER ;
 
 
 -- Handles booking a workshop for a member
+DROP PROCEDURE IF EXISTS BookWorkshop;
 DELIMITER //
 CREATE PROCEDURE BookWorkshop(
     IN p_workshop_id INT,
@@ -109,6 +111,7 @@ END //
 DELIMITER ;
 
 -- With a discipline, returns all the artist with that discipline
+DROP PROCEDURE IF EXISTS GetArtistByDiscipline;
 DELIMITER //
 CREATE PROCEDURE GetArtistByDiscipline(IN p_discipline_id INT)
 BEGIN
@@ -119,6 +122,7 @@ END //
 DELIMITER ;
 
 -- With a member id, shows all the booking and the review 
+DROP PROCEDURE IF EXISTS GetBookingsByMember;
 DELIMITER //
 CREATE PROCEDURE GetBookingsByMember(IN p_member_id INT)
 BEGIN
@@ -133,6 +137,7 @@ DELIMITER ;
 
 
 -- Calculates the average rating of an artwork
+DROP FUNCTION IF EXISTS GetAverageArtworkRating;
 DELIMITER //
 CREATE FUNCTION GetAverageArtworkRating(p_artwork_id INT)
 RETURNS DECIMAL(4, 2) DETERMINISTIC
@@ -147,23 +152,22 @@ END //
 DELIMITER ;
 
 -- Tells if an artist is active
+DROP PROCEDURE IF EXISTS GetAllActiveArtists;
 DELIMITER //
-CREATE FUNCTION GetArtistActiveStatus(p_artist_id INT)
-RETURNS VARCHAR(10)
-DETERMINISTIC
+CREATE PROCEDURE GetAllActiveArtists()
 BEGIN
-    DECLARE active_status VARCHAR(10);
-
-    SELECT IF(isActive, 'Active', 'Inactive') INTO active_status
+    SELECT artist_id, name, contactEmail, phone, city, bio, isActive,
+        CASE WHEN isActive = 1 THEN 'Active' ELSE 'Inactive' END AS status
     FROM Artist
-    WHERE artist_id = p_artist_id;
-
-    RETURN active_status;
+    WHERE isActive = TRUE
+    ORDER BY name;
 END //
 DELIMITER ;
 
 
+
 -- Tells, for an choosen hour, which gallery are open
+DROP FUNCTION IF EXISTS CountOpenGalleriesForHour;
 DELIMITER //
 CREATE FUNCTION CountOpenGalleriesForHour(p_hour TIME)
 RETURNS INT
@@ -192,4 +196,4 @@ SELECT GetAverageArtworkRating(1) AS avg_rating;
 SELECT GetArtistActiveStatus(1) AS active_status;
 SELECT CountOpenGalleriesForHour('10:00:00') AS open_galleries;
 
-
+SELECT * FROM Artist;
