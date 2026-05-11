@@ -156,7 +156,7 @@ DROP PROCEDURE IF EXISTS GetAllActiveArtists;
 DELIMITER //
 CREATE PROCEDURE GetAllActiveArtists()
 BEGIN
-    SELECT artist_id, name, contactEmail, phone, city, bio, isActive,
+    SELECT artist_id, name, birthYear, contactEmail, phone, city, bio, isActive,
         CASE WHEN isActive = 1 THEN 'Active' ELSE 'Inactive' END AS status
     FROM Artist
     WHERE isActive = TRUE

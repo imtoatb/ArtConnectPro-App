@@ -22,4 +22,6 @@ public interface ArtistDao {
     List<Artist> findByCity(Connection conn, String city);
 
     Optional<Artist> findById(Connection conn, Long id);
+
+    List<Artist> getAllActiveArtist(Connection conn);
 }
