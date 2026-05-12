@@ -49,7 +49,7 @@ public class ArtistController {
         ));
         // NOTICE : this function was once deeply flawed and was checking if the text entered matches either the name AND the city.
         // Now, it only checks the name, hence why the null as a third parameter. If you want to check for both but as an OR,
-        // simply put "query" instead of null. 
+        // simply put "query" instead of null.
     }
 
     @FXML

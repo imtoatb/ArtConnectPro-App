@@ -55,6 +55,7 @@ public class ArtistServiceImpl implements ArtistService {
             System.out.println("Issue occurred with Connection: ");
             e.printStackTrace();
         }
+        System.out.println(artist_dao.findAll(this.conn));
         return artist_dao.findAll(this.conn);
     }
 
@@ -88,18 +89,27 @@ public class ArtistServiceImpl implements ArtistService {
         System.out.println("Got to searchArtists");
         return this.allArtists.stream()
                 .filter(a -> {
-                    // If the search bar is empty, pass all.
-                    if (query == null || query.trim().isEmpty()) return true;
+                    // 1. Check the Text Bar (Does the query match their Name OR City?)
+                    boolean matchesText = true;
+                    if (query != null && !query.trim().isEmpty()) {
+                        String lowerQ = query.toLowerCase();
+                        boolean matchName = a.getName() != null && a.getName().toLowerCase().contains(lowerQ);
+                        boolean matchCity = a.getCity() != null && a.getCity().toLowerCase().contains(lowerQ);
 
-                    String lowerQuery = query.toLowerCase();
-                    boolean matchesName = a.getName() != null && a.getName().toLowerCase().contains(lowerQuery);
-                    boolean matchesCity = a.getCity() != null && a.getCity().toLowerCase().contains(lowerQuery);
+                        // Pass this stage if EITHER name or city matches the text
+                        matchesText = matchName || matchCity;
+                    }
 
-                    // Return true if the query matches EITHER the name OR the city
-                    return matchesName || matchesCity;
+                    // 2. Check the Dropdown (Does the discipline match?)
+                    boolean matchesDiscipline = true;
+                    if (disciplineName != null && !disciplineName.trim().isEmpty()) {
+                        matchesDiscipline = a.getDisciplines() != null && a.getDisciplines().stream()
+                                .anyMatch(d -> d.getName().equalsIgnoreCase(disciplineName));
+                    }
+
+                    // 3. The artist must pass BOTH the text check AND the discipline check
+                    return matchesText && matchesDiscipline;
                 })
-                .filter(a -> disciplineName == null || disciplineName.trim().isEmpty()
-                        || a.getDisciplines().stream().anyMatch(d -> d.getName().equals(disciplineName)))
                 .collect(Collectors.toList());
 
     }
