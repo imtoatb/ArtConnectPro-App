@@ -60,6 +60,7 @@ public class ArtistServiceImpl implements ArtistService {
 
     @Override
     public Optional<Artist> getArtistByName(String name){
+        System.out.println("Got to getArtistByName");
         List<Artist> allArtist = getAllArtists();
         return allArtist.stream()
                 .filter(a -> a.getName().equals(name))
@@ -84,17 +85,22 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     public List<Artist> searchArtists(String query, String disciplineName, String city){
-        Map<String, Artist> artists = new LinkedHashMap<>();
-        //List<Artist> allArtists = getAllArtists();
-        for (Artist artist : this.allArtists){
-            artists.put(artist.getName(), artist);
-        }
+        System.out.println("Got to searchArtists");
+        return this.allArtists.stream()
+                .filter(a -> {
+                    // If the search bar is empty, pass all.
+                    if (query == null || query.trim().isEmpty()) return true;
 
-        return artists.values().stream()
-                .filter(a -> query == null || a.getName().toLowerCase().contains(query.toLowerCase()))
-                .filter(a -> city == null || city.isEmpty() || a.getCity().equalsIgnoreCase(city))
-                .filter(a -> disciplineName == null
+                    String lowerQuery = query.toLowerCase();
+                    boolean matchesName = a.getName() != null && a.getName().toLowerCase().contains(lowerQuery);
+                    boolean matchesCity = a.getCity() != null && a.getCity().toLowerCase().contains(lowerQuery);
+
+                    // Return true if the query matches EITHER the name OR the city
+                    return matchesName || matchesCity;
+                })
+                .filter(a -> disciplineName == null || disciplineName.trim().isEmpty()
                         || a.getDisciplines().stream().anyMatch(d -> d.getName().equals(disciplineName)))
                 .collect(Collectors.toList());
+
     }
 }

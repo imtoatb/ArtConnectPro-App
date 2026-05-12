@@ -44,7 +44,12 @@ public class ArtistController {
         String query = searchField.getText();
         Discipline d = disciplineFilter.getValue();
         String dName = (d != null) ? d.getName() : null;
-        artistTable.setItems(FXCollections.observableArrayList(artistService.searchArtists(query, dName, query)));
+        artistTable.setItems(FXCollections.observableArrayList(
+                artistService.searchArtists(query, dName, null)
+        ));
+        // NOTICE : this function was once deeply flawed and was checking if the text entered matches either the name AND the city.
+        // Now, it only checks the name, hence why the null as a third parameter. If you want to check for both but as an OR,
+        // simply put "query" instead of null. 
     }
 
     @FXML
