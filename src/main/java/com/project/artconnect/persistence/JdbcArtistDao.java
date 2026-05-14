@@ -1,9 +1,5 @@
 package com.project.artconnect.persistence;
 
-import com.project.artconnect.dao.ArtistDao;
-import com.project.artconnect.model.Artist;
-import com.project.artconnect.model.CommunityMember;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import com.project.artconnect.dao.ArtistDao;
+import com.project.artconnect.model.Artist;
 
 /**
  * JDBC implementation for ArtistDao.
@@ -27,24 +26,23 @@ public class JdbcArtistDao implements ArtistDao {
 
             try (ResultSet rs = ps.executeQuery()){                     // safely execute the query
                 while(rs.next()) {                                      // for each row of the executed query (so the final table given as output)
-                    artists.add(new Artist(
-                            rs.getString("name"),
-                            rs.getString("bio"),
-                            rs.getInt("birthYear"),
-                            rs.getString("contactEmail"),
-                            rs.getString("city")
-                    ));
+                    Artist artist = new Artist(
+                        rs.getString("name"),
+                        rs.getString("bio"),
+                        rs.getInt("birthYear"),
+                        rs.getString("contactEmail"),
+                        rs.getString("city")
+                    );
+                    artist.setId(rs.getLong("artist_id"));  // NOUVEAU : set l'ID
+                    artist.setPhone(rs.getString("phone"));
+                    artist.setWebsite(rs.getString("website"));
+                    artist.setSocialMedia(rs.getString("socialMedia"));
+                    artist.setActive(rs.getBoolean("isActive"));
+                    artists.add(artist);
                 }
-            } catch (Error e){                                          // handling errors just in case
-                System.out.println("Something went wrong with the query execution");
-                e.printStackTrace();
             }
-        } catch (UnsupportedOperationException e) {
-            System.out.println("Issue occurred with Connection: ");
-            e.printStackTrace();
         } catch (SQLException e) {
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
-            System.err.println("Verify the URL, username, and password in ConnectionManager.");
         }
         return artists;
     }
@@ -119,6 +117,18 @@ public class JdbcArtistDao implements ArtistDao {
         } catch (SQLException e) {
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
             System.err.println("Verify the URL, username, and password in ConnectionManager.");
+        }
+    }
+
+    @Override
+    public void deleteById(Connection conn, Long id) {
+        String sql = "DELETE FROM Artist WHERE artist_id = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Delete failed: " + e.getMessage());
         }
     }
 

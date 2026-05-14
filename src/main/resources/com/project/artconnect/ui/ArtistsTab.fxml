@@ -13,6 +13,7 @@
         <ComboBox fx:id="disciplineFilter" promptText="Filter by Discipline" />
         <Button text="Search" onAction="#handleSearch" />
         <Button text="Reset" onAction="#handleReset" />
+        <Button text="Delete" onAction="#handleDelete" styleClass="delete-button" /> 
     </HBox>
     <TableView fx:id="artistTable" VBox.vgrow="ALWAYS">
         <columns>

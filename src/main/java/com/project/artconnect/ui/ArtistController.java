@@ -53,6 +53,50 @@ public class ArtistController {
         refreshTable();
     }
 
+    @FXML
+    private void handleDelete() {
+        Artist selectedArtist = artistTable.getSelectionModel().getSelectedItem();
+        
+        if (selectedArtist == null) {
+            // Aucun artiste sélectionné
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("No Selection");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select an artist to delete.");
+            alert.showAndWait();
+            return;
+        }
+        
+        // Suppression directe (sans confirmation comme demandé)
+        try {
+            // Utiliser l'ID si disponible, sinon le nom
+            if (selectedArtist.getId() != null) {
+                artistService.deleteArtistById(selectedArtist.getId());
+            } else {
+                artistService.deleteArtist(selectedArtist.getName());
+            }
+            
+            // Rafraîchir la table
+            refreshTable();
+            
+            // Message de succès
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Artist \"" + selectedArtist.getName() + "\" and all their artworks have been deleted.");
+            alert.showAndWait();
+            
+        } catch (Exception e) {
+            // Gestion des erreurs (ex: contrainte de clé étrangère)
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Delete Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Could not delete artist: " + e.getMessage());
+            alert.showAndWait();
+            e.printStackTrace();
+        }
+    }
+
     private void refreshTable() {
         artistTable.setItems(FXCollections.observableArrayList(artistService.getAllArtists()));
     }

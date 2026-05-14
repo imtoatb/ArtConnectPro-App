@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.project.artconnect.dao.ArtworkDao;
 import com.project.artconnect.model.Artist;
@@ -176,6 +177,30 @@ public class JdbcArtworkDao implements ArtworkDao {
     }
 
     @Override
+    public Optional<Artist> findById(Connection conn, Long id) {
+        String sql = "SELECT a.*, art.name as artist_name " +
+                    "FROM Artwork a " +
+                    "LEFT JOIN Artist art ON a.artist_id = art.artist_id " +
+                    "WHERE a.artwork_id = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Artist artist = new Artist();
+                    artist.setName(rs.getString("artist_name"));
+                    // Tu peux ajouter plus de champs si besoin
+                    return Optional.of(artist);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Find by ID failed: " + e.getMessage());
+        }
+        
+        return Optional.empty();
+    }
+    @Override
     public List<Artwork> findByArtistName(Connection conn, String artistName) {
         String sql = "SELECT a.*, art.name as artist_name " +
                      "FROM Artwork a " +
@@ -240,4 +265,30 @@ public class JdbcArtworkDao implements ArtworkDao {
         }
         return artworks;
     }
+
+    @Override
+    public void deleteByArtistId(Connection conn, Long artistId) {
+        String sql = "DELETE FROM Artwork WHERE artist_id = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, artistId);
+            int deletedCount = ps.executeUpdate();
+            System.out.println("Deleted " + deletedCount + " artworks for artist ID: " + artistId);
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Delete artworks by artist failed: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteById(Connection conn, Long id) {
+        String sql = "DELETE FROM Artwork WHERE artwork_id = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Delete by ID failed: " + e.getMessage());
+        }
+    }
+
 }
