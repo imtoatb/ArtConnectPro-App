@@ -1,18 +1,23 @@
 package com.project.artconnect.service.impl;
 
-import com.project.artconnect.model.Gallery;
-import com.project.artconnect.model.Exhibition;
-import com.project.artconnect.model.Artwork;
-import com.project.artconnect.service.GalleryService;
-import com.project.artconnect.service.ArtworkService;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import com.project.artconnect.model.Artwork;
+import com.project.artconnect.model.Exhibition;
+import com.project.artconnect.model.Gallery;
+import com.project.artconnect.service.ArtworkService;
+import com.project.artconnect.service.GalleryService;
 
 public class InMemoryGalleryService implements GalleryService {
     private final Map<String, Gallery> galleries = new LinkedHashMap<>();
 
     public InMemoryGalleryService() {
-        // initData after other services if needed, but Gallery is top-level
     }
 
     public void initData(ArtworkService artworkService) {
@@ -20,7 +25,6 @@ public class InMemoryGalleryService implements GalleryService {
         Gallery british = addGallery("The British Gallery", "Great Russell St, London", 4.7);
         Gallery met = addGallery("Metropolitan Hub", "1000 5th Ave, New York", 4.8);
 
-        // Add Exhibitions
         addExhibition("Renaissance Revival", LocalDate.now().minusMonths(1), LocalDate.now().plusMonths(2), louvre,
                 "Dr. Elena Rossi", "Classic Renaissance",
                 artworkService.getArtworkByTitle("Mona Lisa").orElse(null),

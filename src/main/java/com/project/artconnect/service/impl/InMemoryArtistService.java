@@ -1,10 +1,15 @@
 package com.project.artconnect.service.impl;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Discipline;
 import com.project.artconnect.service.ArtistService;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class InMemoryArtistService implements ArtistService {
     private final Map<String, Artist> artists = new LinkedHashMap<>();
@@ -87,5 +92,20 @@ public class InMemoryArtistService implements ArtistService {
                 .filter(a -> disciplineName == null
                         || a.getDisciplines().stream().anyMatch(d -> d.getName().equals(disciplineName)))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Artist> getArtistById(Long id) {
+        return artists.values().stream()
+                .filter(a -> a.getId() != null && a.getId().equals(id))
+                .findFirst();
+    }
+
+    @Override
+    public void deleteArtistById(Long id) {
+       artists.values().stream()
+                .filter(a -> a.getId() != null && a.getId().equals(id))
+                .findFirst()
+                .ifPresent(artist -> artists.remove(artist.getName()));
     }
 }

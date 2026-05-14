@@ -1,19 +1,21 @@
 package com.project.artconnect.service.impl;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Discipline;
 import com.project.artconnect.persistence.JdbcArtistDao;
+import com.project.artconnect.persistence.JdbcArtworkDao;
 import com.project.artconnect.persistence.JdbcDisciplineDao;
 import com.project.artconnect.service.ArtistService;
 import com.project.artconnect.util.ConnectionManager;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.stream.Collectors;
-
 public class ArtistServiceImpl implements ArtistService {
-    public Connection conn;
     private final JdbcArtistDao artist_dao = new JdbcArtistDao();
     private List<Artist> allArtists;
 
@@ -24,7 +26,7 @@ public class ArtistServiceImpl implements ArtistService {
         }
         catch(SQLException e){
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
-            System.err.println("ArtistServiceImpl not instanciated");
+            return new ArrayList<>();
         }
         this.allArtists = getAllArtists();
 

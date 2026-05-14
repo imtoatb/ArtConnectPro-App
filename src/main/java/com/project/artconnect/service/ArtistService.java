@@ -1,23 +1,25 @@
 package com.project.artconnect.service;
 
-import com.project.artconnect.model.Artist;
-import com.project.artconnect.model.Discipline;
-import com.project.artconnect.util.ConnectionManager;
-
-import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
+
+import com.project.artconnect.model.Artist;
+import com.project.artconnect.model.Discipline;
 
 public interface ArtistService {
     List<Artist> getAllArtists();
 
     Optional<Artist> getArtistByName(String name);
 
+    Optional<Artist> getArtistById(Long id);
+
     void createArtist(Artist artist);
 
     void updateArtist(Artist artist);
 
     void deleteArtist(String name);
+
+    void deleteArtistById(Long id);
 
     List<Discipline> getAllDisciplines();
 

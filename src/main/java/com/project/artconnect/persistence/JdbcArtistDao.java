@@ -15,6 +15,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.artconnect.dao.ArtistDao;
+import com.project.artconnect.model.Artist;
+
 /**
  * JDBC implementation for ArtistDao.
  * TODO: Students must implement this using JDBC and SQL.
@@ -68,16 +71,9 @@ public class JdbcArtistDao implements ArtistDao {
                     }
 
                 }
-            } catch (Error e){                                          // handling errors just in case
-                System.out.println("Something went wrong with the query execution");
-                e.printStackTrace();
             }
-        } catch (UnsupportedOperationException e) {
-            System.out.println("Issue occurred with Connection: ");
-            e.printStackTrace();
         } catch (SQLException e) {
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
-            System.err.println("Verify the URL, username, and password in ConnectionManager.");
         }
         return artists;
     }
@@ -152,6 +148,18 @@ public class JdbcArtistDao implements ArtistDao {
         } catch (SQLException e) {
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
             System.err.println("Verify the URL, username, and password in ConnectionManager.");
+        }
+    }
+
+    @Override
+    public void deleteById(Connection conn, Long id) {
+        String sql = "DELETE FROM Artist WHERE artist_id = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Delete failed: " + e.getMessage());
         }
     }
 

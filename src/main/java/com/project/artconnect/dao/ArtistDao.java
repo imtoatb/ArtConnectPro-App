@@ -19,6 +19,8 @@ public interface ArtistDao {
 
     void delete(Connection conn, String artistName);
 
+    void deleteById(Connection conn, Long id);
+    
     List<Artist> findByCity(Connection conn, String city);
 
     Optional<Artist> findById(Connection conn, Long id);
