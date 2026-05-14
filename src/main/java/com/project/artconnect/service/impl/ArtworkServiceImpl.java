@@ -12,24 +12,23 @@ import java.util.List;
 import java.util.Optional;
 
 public class ArtworkServiceImpl implements ArtworkService {
-    public Connection conn;
+    private Connection conn;
     private final JdbcArtworkDao artworkDao = new JdbcArtworkDao();
 
     public ArtworkServiceImpl(){
-        try{
-            Connection conn = ConnectionManager.getConnection();
-            this.conn = conn;
-        }
-        catch(SQLException e){
+        try {
+            this.conn = ConnectionManager.getConnection();
+        } catch(SQLException e){
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
-            System.err.println("ArtworkServiceImpl not instanciated");
         }
-
     }
+    
+    @Override
     public List<Artwork> getAllArtworks(){
         return artworkDao.findAll(this.conn);
     }
 
+    @Override
     public Optional<Artwork> getArtworkByTitle(String title){
         List<Artwork> allArtwork = getAllArtworks();
         return allArtwork.stream()
@@ -37,19 +36,27 @@ public class ArtworkServiceImpl implements ArtworkService {
                 .findFirst();
     }
 
+    @Override
     public List<Artwork> getArtworksByArtist(Artist artist){
         return artworkDao.findByArtistName(this.conn, artist.getName());
     }
 
+    @Override
     public void createArtwork(Artwork artwork){
         artworkDao.save(this.conn, artwork);
     }
 
+    @Override
     public void updateArtwork(Artwork artwork){
         artworkDao.update(this.conn, artwork);
     }
 
+    @Override
     public void deleteArtwork(String title){
         artworkDao.delete(this.conn, title);
+    }
+
+    public void refreshArtworks() {
+        System.out.println("Refreshing artworks cache");
     }
 }

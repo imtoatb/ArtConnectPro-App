@@ -8,8 +8,7 @@ import com.project.artconnect.model.Exhibition;
 import com.project.artconnect.model.Gallery;
 import com.project.artconnect.service.ExhibitionService;
 import com.project.artconnect.service.GalleryService;
-import com.project.artconnect.service.impl.InMemoryExhibitionService;
-import com.project.artconnect.util.ServiceProvider;
+import com.project.artconnect.util.ServiceProviderBis;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -38,8 +37,8 @@ public class ExhibitionController {
     @FXML
     private Label statusLabel;    
 
-    private final GalleryService galleryService = ServiceProvider.getGalleryService();
-    private final ExhibitionService exhibitionService = new InMemoryExhibitionService();  
+    private final GalleryService galleryService = ServiceProviderBis.getGalleryService();
+    private final ExhibitionService exhibitionService = ServiceProviderBis.getExhibitionService();
     private ObservableList<Exhibition> exhibitionList;  
 
     @FXML
@@ -56,6 +55,9 @@ public class ExhibitionController {
         }
         
         refreshData();
+        
+        // Enregistrer ce contrôleur
+        ServiceProviderBis.registerController(this);
     }
 
     @FXML
@@ -91,6 +93,11 @@ public class ExhibitionController {
         }
         exhibitionList = FXCollections.observableArrayList(all);
         exhibitionTable.setItems(exhibitionList);
+        System.out.println("Exhibition list refreshed, count: " + exhibitionList.size());
+    }
+    
+    public void refresh() {
+        refreshData();
     }
 
     private void showAlert(String title, String content, Alert.AlertType type) {

@@ -3,6 +3,7 @@ package com.project.artconnect.ui;
 import com.project.artconnect.model.Artwork;
 import com.project.artconnect.service.ArtworkService;
 import com.project.artconnect.util.ServiceProviderBis;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,6 +34,7 @@ public class ArtworkController {
     private Label statusLabel;
 
     private final ArtworkService artworkService = ServiceProviderBis.getArtworkService();
+    private ObservableList<Artwork> artworkList;  
 
     @FXML
     public void initialize() {
@@ -44,14 +46,14 @@ public class ArtworkController {
         artistColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getArtist() != null ? cellData.getValue().getArtist().getName() : "Unknown"));
 
-        
         refreshArtworkList();
         
+        // Enregistrer ce contrôleur
+        ServiceProviderBis.registerController(this);
         
         deleteButton.disableProperty().bind(artworkTable.getSelectionModel().selectedItemProperty().isNull());
     }
 
-    
     @FXML
     private void handleDeleteArtwork() {
         Artwork selectedArtwork = artworkTable.getSelectionModel().getSelectedItem();
@@ -62,16 +64,10 @@ public class ArtworkController {
         }
         
         try {
-           
             artworkService.deleteArtwork(selectedArtwork.getTitle());
-            
-            
             statusLabel.setText("Deleted: " + selectedArtwork.getTitle());
             statusLabel.setStyle("-fx-text-fill: green;");
-            
-            // Rafraîchir la liste
             refreshArtworkList();
-            
         } catch (Exception e) {
             showAlert("Error", "Failed to delete artwork: " + e.getMessage(), Alert.AlertType.ERROR);
             statusLabel.setText("Error deleting artwork");
@@ -80,9 +76,14 @@ public class ArtworkController {
         }
     }
     
+    public void refresh() {
+        refreshArtworkList();
+    }
+    
     private void refreshArtworkList() {
         artworkList = FXCollections.observableArrayList(artworkService.getAllArtworks());
         artworkTable.setItems(artworkList);
+        System.out.println("Artwork list refreshed, count: " + artworkList.size());
     }
     
     private void showAlert(String title, String content, Alert.AlertType type) {

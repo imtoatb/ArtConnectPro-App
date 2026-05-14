@@ -5,6 +5,7 @@ import com.project.artconnect.service.WorkshopService;
 import com.project.artconnect.util.ServiceProviderBis;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,6 +27,7 @@ public class WorkshopController {
     private TableColumn<Workshop, String> levelColumn;
 
     private final WorkshopService workshopService = ServiceProviderBis.getWorkshopService();
+    private ObservableList<Workshop> workshopList;
 
     @FXML
     public void initialize() {
@@ -38,6 +40,19 @@ public class WorkshopController {
                 cellData.getValue().getInstructor() != null ? cellData.getValue().getInstructor().getName()
                         : "Unknown"));
 
-        workshopTable.setItems(FXCollections.observableArrayList(workshopService.getAllWorkshops()));
+        refreshWorkshopList();
+        
+        // Enregistrer ce contrôleur
+        ServiceProviderBis.registerController(this);
+    }
+    
+    public void refresh() {
+        refreshWorkshopList();
+    }
+    
+    private void refreshWorkshopList() {
+        workshopList = FXCollections.observableArrayList(workshopService.getAllWorkshops());
+        workshopTable.setItems(workshopList);
+        System.out.println("Workshop list refreshed, count: " + (workshopList != null ? workshopList.size() : 0));
     }
 }

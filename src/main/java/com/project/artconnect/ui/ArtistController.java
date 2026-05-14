@@ -3,12 +3,18 @@ package com.project.artconnect.ui;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.model.Discipline;
 import com.project.artconnect.service.ArtistService;
-import com.project.artconnect.util.ServiceProvider;
 import com.project.artconnect.util.ServiceProviderBis;
+
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.util.List;
 
 public class ArtistController {
     @FXML
@@ -35,8 +41,11 @@ public class ArtistController {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("contactEmail"));
         yearColumn.setCellValueFactory(new PropertyValueFactory<>("birthYear"));
 
-        disciplineFilter.setItems(FXCollections.observableArrayList(artistService.getAllDisciplines()));
+        refreshDisciplines();
         refreshTable();
+        
+        // Enregistrer ce contrôleur
+        ServiceProviderBis.registerController(this);
     }
 
     @FXML
@@ -47,9 +56,6 @@ public class ArtistController {
         artistTable.setItems(FXCollections.observableArrayList(
                 artistService.searchArtists(query, dName, null)
         ));
-        // NOTICE : this function was once deeply flawed and was checking if the text entered matches either the name AND the city.
-        // Now, it only checks the name, hence why the null as a third parameter. If you want to check for both but as an OR,
-        // simply put "query" instead of null.
     }
 
     @FXML
@@ -64,7 +70,6 @@ public class ArtistController {
         Artist selectedArtist = artistTable.getSelectionModel().getSelectedItem();
         
         if (selectedArtist == null) {
-            // Aucun artiste sélectionné
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("No Selection");
             alert.setHeaderText(null);
@@ -73,27 +78,18 @@ public class ArtistController {
             return;
         }
         
-        // Suppression directe (sans confirmation comme demandé)
         try {
-            // Utiliser l'ID si disponible, sinon le nom
-            if (selectedArtist.getId() != null) {
-                artistService.deleteArtistById(selectedArtist.getId());
-            } else {
-                artistService.deleteArtist(selectedArtist.getName());
-            }
+            artistService.deleteArtist(selectedArtist.getName());
             
-            // Rafraîchir la table
-            refreshTable();
+            // Rafraîchir tous les services
+            ServiceProviderBis.refreshAllServices();
             
-            // Message de succès
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Success");
             alert.setHeaderText(null);
-            alert.setContentText("Artist \"" + selectedArtist.getName() + "\" and all their artworks have been deleted.");
+            alert.setContentText("Artist \"" + selectedArtist.getName() + "\" has been deleted.");
             alert.showAndWait();
-            
         } catch (Exception e) {
-            // Gestion des erreurs (ex: contrainte de clé étrangère)
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Delete Failed");
             alert.setHeaderText(null);
@@ -104,6 +100,18 @@ public class ArtistController {
     }
 
     private void refreshTable() {
-        artistTable.setItems(FXCollections.observableArrayList(artistService.getAllArtists()));
+        List<Artist> artists = artistService.getAllArtists();
+        System.out.println("Refreshing table with " + artists.size() + " artists");
+        artistTable.setItems(FXCollections.observableArrayList(artists));
+    }
+    
+    private void refreshDisciplines() {
+        List<Discipline> disciplines = artistService.getAllDisciplines();
+        disciplineFilter.setItems(FXCollections.observableArrayList(disciplines));
+    }
+    
+    public void refresh() {
+        refreshTable();
+        refreshDisciplines();
     }
 }
