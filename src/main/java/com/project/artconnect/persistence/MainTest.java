@@ -14,16 +14,15 @@ public class MainTest {
         
         try {
             conn = ConnectionManager.getConnection();
-            JdbcArtworkDao artworkDao = new JdbcArtworkDao();
+            JdbcArtistDao artistDao = new JdbcArtistDao();
             
-            System.out.println("test 1: findAll");
-            List<Artwork> artworks = artworkDao.findAll(conn);
-            System.out.println("found: " + artworks.size());
-            for (Artwork artwork : artworks) {
-                System.out.println("  - " + artwork.getTitle() + " by " + 
-                    (artwork.getArtist() != null ? artwork.getArtist().getName() : "unknown"));
+            System.out.println("test 1: getAllActiveArtist");
+            List<Artist> artists = artistDao.getAllActiveArtist(conn);
+            System.out.println("found: " + artists.size());
+            for (Artist artist : artists) {
+                System.out.println("  - " + artist.getName() + " bio : " + artist.getBio());
             }
-            
+            /*
             System.out.println("\ntest 2: findByArtistName (Degas)");
             List<Artwork> degasWorks = artworkDao.findByArtistName(conn, "Degas");
             for (Artwork artwork : degasWorks) {
@@ -64,7 +63,7 @@ public class MainTest {
             
             List<Artwork> finalList = artworkDao.findAll(conn);
             System.out.println("\ntotal final: " + finalList.size());
-            
+        */
         } catch (SQLException e) {
             System.err.println("database error: " + e.getMessage());
             e.printStackTrace();

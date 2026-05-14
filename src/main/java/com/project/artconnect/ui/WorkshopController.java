@@ -2,7 +2,7 @@ package com.project.artconnect.ui;
 
 import com.project.artconnect.model.Workshop;
 import com.project.artconnect.service.WorkshopService;
-import com.project.artconnect.util.ServiceProvider;
+import com.project.artconnect.util.ServiceProviderBis;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -25,7 +25,7 @@ public class WorkshopController {
     @FXML
     private TableColumn<Workshop, String> levelColumn;
 
-    private final WorkshopService workshopService = ServiceProvider.getWorkshopService();
+    private final WorkshopService workshopService = ServiceProviderBis.getWorkshopService();
 
     @FXML
     public void initialize() {

@@ -22,9 +22,7 @@ public class ServiceProvider {
         communityService.initData(artworkService);
     }
 
-    public static ArtistService getArtistService() {
-        return artistService;
-    }
+    public static ArtistService getArtistService() { return artistService; }
 
     public static ArtworkService getArtworkService() {
         return artworkService;

@@ -2,7 +2,7 @@ package com.project.artconnect.ui;
 
 import com.project.artconnect.model.Gallery;
 import com.project.artconnect.service.GalleryService;
-import com.project.artconnect.util.ServiceProvider;
+import com.project.artconnect.util.ServiceProviderBis;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -11,7 +11,7 @@ public class GalleryController {
     @FXML
     private ListView<Gallery> galleryList;
 
-    private final GalleryService galleryService = ServiceProvider.getGalleryService();
+    private final GalleryService galleryService = ServiceProviderBis.getGalleryService();
 
     @FXML
     public void initialize() {

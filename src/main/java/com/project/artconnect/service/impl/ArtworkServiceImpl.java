@@ -16,7 +16,8 @@ public class ArtworkServiceImpl implements ArtworkService {
     private final JdbcArtworkDao artworkDao = new JdbcArtworkDao();
 
     public ArtworkServiceImpl(){
-        try( Connection conn = ConnectionManager.getConnection()){
+        try{
+            Connection conn = ConnectionManager.getConnection();
             this.conn = conn;
         }
         catch(SQLException e){

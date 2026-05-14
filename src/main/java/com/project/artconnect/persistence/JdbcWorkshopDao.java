@@ -56,20 +56,24 @@ public class JdbcWorkshopDao implements WorkshopDao {
 
                 JdbcArtistDao artistdao = new JdbcArtistDao();
 
-                Long artist_id = rs.getLong("artist_id");
-                Optional<Artist> optional_artist = artistdao.findById(conn, artist_id);
-                Artist found_artist = null;
-                if (optional_artist.isPresent()) {
-                    found_artist = optional_artist.get();
-                }
 
-                while(rs.next()) {                                      // for each row of the executed query (so the final table given as output)
-                    workshops.add(new Workshop(
+
+                while(rs.next()) {
+                    Long artist_id = rs.getLong("artist_id");
+                    Optional<Artist> optional_artist = artistdao.findById(conn, artist_id);
+                    Artist found_artist = null;
+                    if (optional_artist.isPresent()) {
+                        found_artist = optional_artist.get();
+                    }
+                    // for each row of the executed query (so the final table given as output)
+                    Workshop newWorkshop = new Workshop(
                             rs.getString("title"),
-                            rs.getDate("date").toLocalDate().atTime(LocalTime.now()), // IDK IF THERE S A WAY TO RETRIEVE IT THE CORRECT TIME
+                            rs.getDate("w_date").toLocalDate().atTime(LocalTime.now()), // IDK IF THERE S A WAY TO RETRIEVE IT THE CORRECT TIME
                             found_artist,
-                            rs.getDouble("price")
-                    ));
+                            rs.getDouble("price"));
+                    newWorkshop.setLevel(rs.getString("level"));
+                    workshops.add(newWorkshop);
+
                 }
             } catch (Error e){                                          // handling errors just in case
                 System.out.println("Something went wrong with the query execution");

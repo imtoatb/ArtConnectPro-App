@@ -121,6 +121,16 @@ BEGIN
 END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS GetDisciplinesByArtist;
+DELIMITER //
+CREATE PROCEDURE GetDisciplinesByArtist(IN p_artist_id INT)
+BEGIN
+	SELECT d.* FROM Discipline d
+    LEFT JOIN has_a_style h ON d.discipline_id = h.discipline_id
+    WHERE h.artist_id = p_artist_id;
+END //
+DELIMITER ;
+
 -- With a member id, shows all the booking and the review 
 DROP PROCEDURE IF EXISTS GetBookingsByMember;
 DELIMITER //
@@ -156,7 +166,7 @@ DROP PROCEDURE IF EXISTS GetAllActiveArtists;
 DELIMITER //
 CREATE PROCEDURE GetAllActiveArtists()
 BEGIN
-    SELECT artist_id, name, contactEmail, phone, city, bio, isActive,
+    SELECT artist_id, name, birthYear, contactEmail, phone, city, bio, isActive,
         CASE WHEN isActive = 1 THEN 'Active' ELSE 'Inactive' END AS status
     FROM Artist
     WHERE isActive = TRUE

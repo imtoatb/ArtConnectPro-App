@@ -23,11 +23,13 @@ public class JdbcCommunityMemberDao implements CommunityMemberDao{
 
             try (ResultSet rs = ps.executeQuery()){                     // safely execute the query
                 while(rs.next()) {                                      // for each row of the executed query (so the final table given as output)
-                    members.add(new CommunityMember(
+                    CommunityMember newMember = new CommunityMember(
                             rs.getString("name"),
-                            rs.getString("email")
-                    ));
+                            rs.getString("email"));
+                    newMember.setCity(rs.getString("city"));
+                    members.add(newMember);
                 }
+
             } catch (Error e){                                          // handling errors just in case
                 System.out.println("Something went wrong with the query execution");
                 e.printStackTrace();

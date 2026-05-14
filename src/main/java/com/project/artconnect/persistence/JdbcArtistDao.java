@@ -2,13 +2,16 @@ package com.project.artconnect.persistence;
 
 import com.project.artconnect.dao.ArtistDao;
 import com.project.artconnect.model.Artist;
+import com.project.artconnect.model.Artwork;
 import com.project.artconnect.model.CommunityMember;
+import com.project.artconnect.model.Discipline;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,20 +23,50 @@ public class JdbcArtistDao implements ArtistDao {
 
     @Override
     public List<Artist> findAll(Connection conn) {
+        try {
+            if (conn.isClosed()) {
+                System.out.println("jdbc closed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Issue occurred with Connection: ");
+            e.printStackTrace();
+        }
+
+
         String sql_statement = "SELECT * FROM Artist";        // initiate SQL query
         List<Artist> artists = new ArrayList<>();             // initiate result
 
         try (PreparedStatement ps = conn.prepareStatement(sql_statement)){     // prepare the query for the placeholders values
 
             try (ResultSet rs = ps.executeQuery()){                     // safely execute the query
-                while(rs.next()) {                                      // for each row of the executed query (so the final table given as output)
-                    artists.add(new Artist(
-                            rs.getString("name"),
-                            rs.getString("bio"),
-                            rs.getInt("birthYear"),
-                            rs.getString("contactEmail"),
-                            rs.getString("city")
-                    ));
+
+                while(rs.next()) {
+
+                    // LOOP TO FIND THE DISCIPLINE OF A SPECIFIC ARTIST
+                    long curr_artist_id = rs.getLong("artist_id");
+                    String sql_discipline = "CALL GetDisciplinesByArtist(" + curr_artist_id + ")";
+
+                    List<Discipline> list_disciplines = new ArrayList<>();
+                    try (PreparedStatement ps_dis = conn.prepareStatement(sql_discipline)) {
+
+                        try (ResultSet rs_dis = ps_dis.executeQuery()) {
+                            while (rs_dis.next()){
+                                list_disciplines.add(new Discipline(
+                                        rs_dis.getString("name")
+                                ));
+                            }
+                        }
+                        // Using the retrieved disciplines, we add them to the artist
+                        Artist curr_artist = new Artist(
+                                rs.getString("name"),
+                                rs.getString("bio"),
+                                rs.getInt("birthYear"),
+                                rs.getString("contactEmail"),
+                                rs.getString("city"));
+                        curr_artist.setDisciplines(list_disciplines);
+                        artists.add(curr_artist);
+                    }
+
                 }
             } catch (Error e){                                          // handling errors just in case
                 System.out.println("Something went wrong with the query execution");
@@ -108,7 +141,7 @@ public class JdbcArtistDao implements ArtistDao {
     public void delete(Connection conn, String artistName) {
         String sql_statement = "DELETE FROM Artist WHERE name = ?";        // initiate SQL query
 
-        try (PreparedStatement ps = conn.prepareStatement(sql_statement);){      // prepare the query for the placeholders values
+        try (PreparedStatement ps = conn.prepareStatement(sql_statement)){      // prepare the query for the placeholders values
 
             ps.setString(1, artistName);
 
@@ -185,6 +218,36 @@ public class JdbcArtistDao implements ArtistDao {
         }
 
         return Optional.of(myArtist);
+    }
+
+    public List<Artist> getAllActiveArtist(Connection conn){
+        String sql_statement = "CALL GetAllActiveArtists()";        // initiate SQL query
+        List<Artist> artists = new ArrayList<>();             // initiate result
+
+        try (PreparedStatement ps = conn.prepareStatement(sql_statement)){     // prepare the query for the placeholders values
+
+            try (ResultSet rs = ps.executeQuery()){                     // safely execute the query
+                while(rs.next()) {                                      // for each row of the executed query (so the final table given as output)
+                    artists.add(new Artist(
+                            rs.getString("name"),
+                            rs.getString("bio"),
+                            rs.getInt("birthYear"),
+                            rs.getString("contactEmail"),
+                            rs.getString("city")
+                    ));
+                }
+            } catch (Error e){                                          // handling errors just in case
+                System.out.println("Something went wrong with the query execution");
+                e.printStackTrace();
+            }
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Issue occurred with Connection: ");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("[ERROR] Connection failed: " + e.getMessage());
+            System.err.println("Verify the URL, username, and password in ConnectionManager.");
+        }
+        return artists;
     }
 }
 

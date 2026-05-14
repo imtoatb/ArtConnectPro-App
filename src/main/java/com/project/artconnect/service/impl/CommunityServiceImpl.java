@@ -17,7 +17,8 @@ public class CommunityServiceImpl implements CommunityService {
     private final JdbcCommunityMemberDao communityMemberDao = new JdbcCommunityMemberDao();
 
     public CommunityServiceImpl(){
-        try( Connection conn = ConnectionManager.getConnection()){
+        try{
+            Connection conn = ConnectionManager.getConnection();
             this.conn = conn;
         }
         catch(SQLException e){

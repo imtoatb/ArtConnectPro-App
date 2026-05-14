@@ -15,25 +15,53 @@ import java.util.stream.Collectors;
 public class ArtistServiceImpl implements ArtistService {
     public Connection conn;
     private final JdbcArtistDao artist_dao = new JdbcArtistDao();
+    private List<Artist> allArtists;
 
     public ArtistServiceImpl(){
-        try( Connection conn = ConnectionManager.getConnection()){
+        try{
+            Connection conn = ConnectionManager.getConnection();
             this.conn = conn;
         }
         catch(SQLException e){
             System.err.println("[ERROR] Connection failed: " + e.getMessage());
             System.err.println("ArtistServiceImpl not instanciated");
         }
+        this.allArtists = getAllArtists();
 
+
+        /*
+        try {
+            if (conn.isClosed()) {
+                System.out.println("service constructeur closed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Issue occurred with Connection: ");
+            e.printStackTrace();
+        }*/
+
+    }
+
+    public void initData(){
+        System.out.println("Nothing");
     }
 
     @Override
     public List<Artist> getAllArtists(){
+        try {
+            if (conn.isClosed()) {
+                System.out.println("service closed");
+            }
+        } catch (SQLException e) {
+            System.out.println("Issue occurred with Connection: ");
+            e.printStackTrace();
+        }
+        System.out.println(artist_dao.findAll(this.conn));
         return artist_dao.findAll(this.conn);
     }
 
     @Override
     public Optional<Artist> getArtistByName(String name){
+        System.out.println("Got to getArtistByName");
         List<Artist> allArtist = getAllArtists();
         return allArtist.stream()
                 .filter(a -> a.getName().equals(name))
@@ -58,17 +86,31 @@ public class ArtistServiceImpl implements ArtistService {
     }
 
     public List<Artist> searchArtists(String query, String disciplineName, String city){
-        Map<String, Artist> artists = new LinkedHashMap<>();
-        List<Artist> allArtists = getAllArtists();
-        for (Artist artist : allArtists){
-            artists.put(artist.getName(), artist);
-        }
+        System.out.println("Got to searchArtists");
+        return this.allArtists.stream()
+                .filter(a -> {
+                    // 1. Check the Text Bar (Does the query match their Name OR City?)
+                    boolean matchesText = true;
+                    if (query != null && !query.trim().isEmpty()) {
+                        String lowerQ = query.toLowerCase();
+                        boolean matchName = a.getName() != null && a.getName().toLowerCase().contains(lowerQ);
+                        boolean matchCity = a.getCity() != null && a.getCity().toLowerCase().contains(lowerQ);
 
-        return artists.values().stream()
-                .filter(a -> query == null || a.getName().toLowerCase().contains(query.toLowerCase()))
-                .filter(a -> city == null || city.isEmpty() || a.getCity().equalsIgnoreCase(city))
-                .filter(a -> disciplineName == null
-                        || a.getDisciplines().stream().anyMatch(d -> d.getName().equals(disciplineName)))
+                        // Pass this stage if EITHER name or city matches the text
+                        matchesText = matchName || matchCity;
+                    }
+
+                    // 2. Check the Dropdown (Does the discipline match?)
+                    boolean matchesDiscipline = true;
+                    if (disciplineName != null && !disciplineName.trim().isEmpty()) {
+                        matchesDiscipline = a.getDisciplines() != null && a.getDisciplines().stream()
+                                .anyMatch(d -> d.getName().equalsIgnoreCase(disciplineName));
+                    }
+
+                    // 3. The artist must pass BOTH the text check AND the discipline check
+                    return matchesText && matchesDiscipline;
+                })
                 .collect(Collectors.toList());
+
     }
 }
