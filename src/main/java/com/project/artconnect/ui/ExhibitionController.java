@@ -1,18 +1,26 @@
 package com.project.artconnect.ui;
 
-import com.project.artconnect.model.Exhibition;
-import com.project.artconnect.model.Gallery;
-import com.project.artconnect.service.GalleryService;
-import com.project.artconnect.util.ServiceProvider;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.project.artconnect.model.Exhibition;
+import com.project.artconnect.model.Gallery;
+import com.project.artconnect.service.ExhibitionService;
+import com.project.artconnect.service.GalleryService;
+import com.project.artconnect.service.impl.InMemoryExhibitionService;
+import com.project.artconnect.util.ServiceProvider;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ExhibitionController {
     @FXML
@@ -25,8 +33,14 @@ public class ExhibitionController {
     private TableColumn<Exhibition, String> themeColumn;
     @FXML
     private TableColumn<Exhibition, String> galleryColumn;
+    @FXML
+    private Button deleteButton;  
+    @FXML
+    private Label statusLabel;    
 
     private final GalleryService galleryService = ServiceProvider.getGalleryService();
+    private final ExhibitionService exhibitionService = new InMemoryExhibitionService();  
+    private ObservableList<Exhibition> exhibitionList;  
 
     @FXML
     public void initialize() {
@@ -37,7 +51,37 @@ public class ExhibitionController {
         galleryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
                 cellData.getValue().getGallery() != null ? cellData.getValue().getGallery().getName() : "Unknown"));
 
+        if (deleteButton != null) {
+            deleteButton.disableProperty().bind(exhibitionTable.getSelectionModel().selectedItemProperty().isNull());
+        }
+        
         refreshData();
+    }
+
+    @FXML
+    private void handleDeleteExhibition() {
+        Exhibition selectedExhibition = exhibitionTable.getSelectionModel().getSelectedItem();
+        
+        if (selectedExhibition == null) {
+            showAlert("No Selection", "Please select an exhibition to delete.", Alert.AlertType.WARNING);
+            return;
+        }
+        
+        try {
+            exhibitionService.deleteExhibition(selectedExhibition.getTitle());
+            if (statusLabel != null) {
+                statusLabel.setText("Deleted: " + selectedExhibition.getTitle());
+                statusLabel.setStyle("-fx-text-fill: green;");
+            }
+            refreshData();
+        } catch (Exception e) {
+            showAlert("Error", "Failed to delete exhibition: " + e.getMessage(), Alert.AlertType.ERROR);
+            if (statusLabel != null) {
+                statusLabel.setText("Error deleting exhibition");
+                statusLabel.setStyle("-fx-text-fill: red;");
+            }
+            e.printStackTrace();
+        }
     }
 
     private void refreshData() {
@@ -45,6 +89,15 @@ public class ExhibitionController {
         for (Gallery g : galleryService.getAllGalleries()) {
             all.addAll(g.getExhibitions());
         }
-        exhibitionTable.setItems(FXCollections.observableArrayList(all));
+        exhibitionList = FXCollections.observableArrayList(all);
+        exhibitionTable.setItems(exhibitionList);
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 }

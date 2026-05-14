@@ -1,23 +1,29 @@
 package com.project.artconnect.util;
 
-import com.project.artconnect.service.*;
-import com.project.artconnect.service.impl.*;
+import com.project.artconnect.service.ArtistService;
+import com.project.artconnect.service.ArtworkService;
+import com.project.artconnect.service.CommunityService;
+import com.project.artconnect.service.ExhibitionService;
+import com.project.artconnect.service.GalleryService;
+import com.project.artconnect.service.WorkshopService;
+import com.project.artconnect.service.impl.InMemoryArtistService;
+import com.project.artconnect.service.impl.InMemoryArtworkService;
+import com.project.artconnect.service.impl.InMemoryCommunityService;
+import com.project.artconnect.service.impl.InMemoryExhibitionService;
+import com.project.artconnect.service.impl.InMemoryGalleryService;
+import com.project.artconnect.service.impl.InMemoryWorkshopService;
 
-/**
- * Service Provider to manage singleton instances of services and handle their
- * initialization.
- */
 public class ServiceProvider {
     private static final InMemoryArtistService artistService = new InMemoryArtistService();
     private static final InMemoryArtworkService artworkService = new InMemoryArtworkService();
+    private static final InMemoryExhibitionService exhibitionService = new InMemoryExhibitionService(); 
     private static final InMemoryGalleryService galleryService = new InMemoryGalleryService();
     private static final InMemoryWorkshopService workshopService = new InMemoryWorkshopService();
     private static final InMemoryCommunityService communityService = new InMemoryCommunityService();
 
     static {
-        // Initialize services with their dependencies
         artworkService.initData(artistService);
-        galleryService.initData(artworkService);
+        galleryService.initData(artworkService);  
         workshopService.initData(artistService);
         communityService.initData(artworkService);
     }
@@ -28,6 +34,10 @@ public class ServiceProvider {
 
     public static ArtworkService getArtworkService() {
         return artworkService;
+    }
+
+    public static ExhibitionService getExhibitionService() {
+        return exhibitionService;   
     }
 
     public static GalleryService getGalleryService() {

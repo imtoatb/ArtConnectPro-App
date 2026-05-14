@@ -19,6 +19,7 @@ C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtCo
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\ui\ExhibitionController.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\service\impl\ArtistServiceImpl.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\persistence\JdbcExhibitionDao.java
+C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\service\impl\InMemoryExhibitionService.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\persistence\JdbcArtworkDao.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\service\impl\ArtworkServiceImpl.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\ui\TestConnection.java
@@ -48,6 +49,7 @@ C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtCo
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\ui\DiscoverController.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\persistence\JdbcWorkshopDao.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\util\ConnectionManager.java
+C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\service\ExhibitionService.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\service\ArtistService.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\service\impl\InMemoryCommunityService.java
 C:\Users\idfcg\Documents\Documents\Efrei\Efrei S6\Advanced Database\Projet\ArtConnectPro-App\src\main\java\com\project\artconnect\persistence\MainTest.java
