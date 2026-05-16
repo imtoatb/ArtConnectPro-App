@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.artconnect.ui.AddArtistController">
+
+    <Label text="Add the information about the artist"/>
+    <HBox spacing="10.0" alignment="BASELINE_LEFT">
+        <Label text="Name : "/>
+        <TextField fx:id="nameField" promptText="ex: Linus..."/>
+    </HBox>
+    <HBox spacing="10.0" alignment="BASELINE_LEFT">
+        <Label text="Bio : "/>
+        <TextField fx:id="bioField" promptText="ex: beau et élégant..."/>
+    </HBox>
+    <HBox spacing="10.0" alignment="BASELINE_LEFT">
+        <Label text="Birth Year : "/>
+        <TextField fx:id="birthYearField" promptText="ex: 2005..."/>
+    </HBox>
+    <HBox spacing="10.0" alignment="BASELINE_LEFT">
+        <Label text="Contact Email : "/>
+        <TextField fx:id="contactEmailField" promptText="ex: linusnedellec@gmail.com..."/>
+    </HBox>
+    <HBox spacing="10.0" alignment="BASELINE_LEFT">
+        <Label text="Phone : "/>
+        <TextField fx:id="phoneField" promptText="ex: +33 6 95 79 56 97..."/>
+    </HBox>
+    <HBox spacing="10.0" alignment="BASELINE_LEFT">
+        <Label text="City : "/>
+        <TextField fx:id="cityField" promptText="ex: Velizy..."/>
+    </HBox>
+    <HBox spacing="10.0" alignment="BASELINE_LEFT">
+        <Label text="Website : "/>
+        <TextField fx:id="websiteField" promptText="ex: https://linktr.ee/linus_nedellec..."/>
+    </HBox>
+    <HBox spacing="10.0" alignment="BASELINE_LEFT">
+        <Label text="Social Media : "/>
+        <TextField fx:id="socialMediaField" promptText="ex: linus.ndc..."/>
+    </HBox>
+
+    <Button text="Add Artist" onAction="#closeWindow"/>
+</VBox>
+

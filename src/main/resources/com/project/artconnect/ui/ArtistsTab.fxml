@@ -13,7 +13,7 @@
         <ComboBox fx:id="disciplineFilter" promptText="Filter by Discipline" />
         <Button text="Search" onAction="#handleSearch" />
         <Button text="Reset" onAction="#handleReset" />
-        <Button text="Delete" onAction="#handleDelete" styleClass="delete-button" /> 
+
     </HBox>
     <TableView fx:id="artistTable" VBox.vgrow="ALWAYS">
         <columns>
@@ -23,4 +23,7 @@
             <TableColumn fx:id="yearColumn" text="Birth Year" prefWidth="100" />
         </columns>
     </TableView>
+    <Button text="Add" onAction="#handleAdd"/>
+    <Button text="Modify" onAction="#handleModify"/>
+    <Button text="Delete" onAction="#handleDelete" styleClass="delete-button" />
 </VBox>
