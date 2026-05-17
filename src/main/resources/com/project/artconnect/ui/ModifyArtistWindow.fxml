@@ -6,9 +6,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox spacing="10.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.artconnect.ui.AddArtistController">
+<VBox spacing="10.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.artconnect.ui.ModifyArtistController">
 
-    <Label text="Add the information about the artist"/>
+    <Label text="Modify the information about the artist"/>
     <HBox spacing="10.0" alignment="BASELINE_LEFT">
         <Label text="Name : "/>
         <TextField fx:id="nameField" promptText="ex: Linus..."/>
@@ -42,6 +42,6 @@
         <TextField fx:id="socialMediaField" promptText="ex: linus.ndc..."/>
     </HBox>
 
-    <Button text="Add Artist" onAction="#addArtist"/>
+    <Button text="Modify Artist" onAction="#modifyArtist"/>
 </VBox>
 

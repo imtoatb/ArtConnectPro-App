@@ -74,8 +74,6 @@ public class ArtistController {
 
     @FXML
     private void handleAdd() throws IOException {
-        Artist myArtist = new Artist();
-
         Parent root = FXMLLoader.load(getClass().getResource("AddArtistWindow.fxml"));
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
@@ -88,12 +86,51 @@ public class ArtistController {
         // would be a bummer if someone messes with the DB whilst trying to create smtg
         primaryStage.show();
         // opens window
+        primaryStage.setOnCloseRequest(event -> {
+            event.consume();
+            System.out.println("Add window closed abruptly");
+            primaryStage.close();
+        });
 
         refreshTable();
     }
 
-    public void handleModify(){
-        return;     // not yet impelmented
+    public void handleModify() throws IOException {
+        // first, gather the selected item
+        if (artistTable.getSelectionModel().getSelectedItem() != null) {
+            Artist selectedArtist = artistTable.getSelectionModel().getSelectedItem();
+
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("ModifyArtistWindow.fxml"));
+            Parent root = loader.load();
+            // dissociate loader, for communication purpose
+            ModifyArtistController controller = loader.getController();
+            // get controller of the window to be opened
+
+            Scene scene = new Scene(root);
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("Modify Artist Window");
+            primaryStage.setScene(scene);
+            // specifies modality of new window
+
+            primaryStage.initModality(Modality.APPLICATION_MODAL);
+            // type of window that is forced over the parent (they can't interact with the main app before they close this window)
+            // would be a bummer if someone messes with the DB whilst trying to create smtg
+
+            controller.retrieveArtist(selectedArtist);
+
+            primaryStage.show();
+            primaryStage.setOnCloseRequest(event -> {
+                event.consume();
+                System.out.println("Modify window closed abruptly");
+                primaryStage.close();
+                refreshTable();
+            });
+            // opens window
+        } else{
+            System.out.println("Selection Error : No artist selected, can't modify");
+        }
+
     }
 
     @FXML

@@ -1,13 +1,13 @@
 package com.project.artconnect.ui;
 
-import com.project.artconnect.dao.impl.ArtistDaoImpl;
 import com.project.artconnect.model.Artist;
 import com.project.artconnect.service.ArtistService;
 import com.project.artconnect.util.ServiceProviderBis;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-public class AddArtistController {
+public class ModifyArtistController {
     @FXML
     private TextField nameField;
     @FXML
@@ -32,7 +32,16 @@ public class AddArtistController {
         return; // for now, nothing
     }
 
-    public Artist addArtist(){
+    public void retrieveArtist(Artist selectedArtist){
+        nameField.setText(selectedArtist.getName());
+        bioField.setText(selectedArtist.getBio());
+        birthYearField.setText(Integer.toString(selectedArtist.getBirthYear()));
+        contactEmailField.setText(selectedArtist.getContactEmail());
+        phoneField.setText(selectedArtist.getPhone());
+        websiteField.setText(selectedArtist.getWebsite());
+        socialMediaField.setText(selectedArtist.getSocialMedia());
+    }
+    public void modifyArtist(){
         Artist myArtist = new Artist();
 
         myArtist.setName(nameField.getText());
@@ -51,13 +60,12 @@ public class AddArtistController {
         myArtist.setSocialMedia(socialMediaField.getText());
 
         try{
-            artistService.createArtist(myArtist);
-            System.out.println("Artist added : " + myArtist.toString());
+            artistService.updateArtist(myArtist);
+            System.out.println("Artist modified : " + myArtist.toString());
         } catch (Exception e){
             System.out.println("Error : something messed up when trying to add the artist");
         }
 
-
-        return myArtist;
     }
+
 }
