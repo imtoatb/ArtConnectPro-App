@@ -89,7 +89,9 @@ public class ArtistController {
         primaryStage.setOnCloseRequest(event -> {
             event.consume();
             System.out.println("Add window closed abruptly");
+            ServiceProviderBis.refreshAllServices();
             primaryStage.close();
+            refreshTable();
         });
 
         refreshTable();
@@ -120,13 +122,15 @@ public class ArtistController {
             controller.retrieveArtist(selectedArtist);
 
             primaryStage.show();
+            // opens window
             primaryStage.setOnCloseRequest(event -> {
                 event.consume();
                 System.out.println("Modify window closed abruptly");
+                ServiceProviderBis.refreshAllServices();
                 primaryStage.close();
                 refreshTable();
             });
-            // opens window
+
         } else{
             System.out.println("Selection Error : No artist selected, can't modify");
         }
@@ -171,6 +175,7 @@ public class ArtistController {
         List<Artist> artists = artistService.getAllArtists();
         System.out.println("Refreshing table with " + artists.size() + " artists");
         artistTable.setItems(FXCollections.observableArrayList(artists));
+        artistTable.refresh();
     }
     
     private void refreshDisciplines() {

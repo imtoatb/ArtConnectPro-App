@@ -29,4 +29,10 @@ public class CommunityController {
 
         memberTable.setItems(FXCollections.observableArrayList(communityService.getAllMembers()));
     }
+
+    public void handleAdd(){return;}
+
+    public void handleModify(){return;}
+
+    public void handleDelete(){return;}
 }

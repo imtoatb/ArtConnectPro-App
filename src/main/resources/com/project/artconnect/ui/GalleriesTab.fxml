@@ -9,4 +9,9 @@
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
     <ListView fx:id="galleryList" VBox.vgrow="ALWAYS" />
+    <HBox spacing="10.0">
+        <Button text="Add" onAction="#handleAdd"/>
+        <Button text="Modify" onAction="#handleModify"/>
+        <Button text="Delete" onAction="#handleDelete"/>
+    </HBox>
 </VBox>

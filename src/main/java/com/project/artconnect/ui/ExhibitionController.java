@@ -60,8 +60,12 @@ public class ExhibitionController {
         ServiceProviderBis.registerController(this);
     }
 
+    public void handleAdd(){return;}
+
+    public void handleModify(){return;}
+
     @FXML
-    private void handleDeleteExhibition() {
+    public void handleDelete() {
         Exhibition selectedExhibition = exhibitionTable.getSelectionModel().getSelectedItem();
         
         if (selectedExhibition == null) {

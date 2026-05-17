@@ -31,10 +31,6 @@ public class ArtistServiceImpl implements ArtistService {
         refreshArtists();
     }
 
-    public void initData(){
-        System.out.println("Nothing");
-    }
-
     @Override
     public List<Artist> getAllArtists(){
         return artist_dao.findAll(this.conn);
@@ -202,7 +198,8 @@ public class ArtistServiceImpl implements ArtistService {
 
     // Rendre cette méthode PUBLIC
     public void refreshArtists() {
-        this.allArtists = artist_dao.findAll(this.conn);
+        this.allArtists = this.getAllArtists();
+        //this.allArtists = artist_dao.findAll(this.conn);
         System.out.println("Refreshed artists list, count: " + (this.allArtists != null ? this.allArtists.size() : 0));
     }
 }

@@ -4,6 +4,7 @@ import com.project.artconnect.model.Artist;
 import com.project.artconnect.service.ArtistService;
 import com.project.artconnect.util.ServiceProviderBis;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -38,6 +39,7 @@ public class ModifyArtistController {
         birthYearField.setText(Integer.toString(selectedArtist.getBirthYear()));
         contactEmailField.setText(selectedArtist.getContactEmail());
         phoneField.setText(selectedArtist.getPhone());
+        cityField.setText(selectedArtist.getCity());
         websiteField.setText(selectedArtist.getWebsite());
         socialMediaField.setText(selectedArtist.getSocialMedia());
     }
@@ -61,9 +63,17 @@ public class ModifyArtistController {
 
         try{
             artistService.updateArtist(myArtist);
-            System.out.println("Artist modified : " + myArtist.toString());
+            System.out.println("Artist modified : " + myArtist);
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Success");
+            alert.setHeaderText(null);
+            alert.setContentText("Artist \"" + myArtist.getName() + "\" has been modified.");
+            alert.showAndWait();
+            //ServiceProviderBis.refreshAllServices();
+
         } catch (Exception e){
-            System.out.println("Error : something messed up when trying to add the artist");
+            System.out.println("Error : something messed up when trying to modify the artist");
         }
 
     }

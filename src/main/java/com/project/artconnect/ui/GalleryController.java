@@ -34,6 +34,12 @@ public class GalleryController {
             }
         });
     }
+
+    public void handleAdd(){return;}
+
+    public void handleModify(){return;}
+
+    public void handleDelete(){return;}
     
     public void refresh() {
         refreshGalleryList();

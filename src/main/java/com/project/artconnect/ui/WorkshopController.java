@@ -45,7 +45,13 @@ public class WorkshopController {
         // Enregistrer ce contrôleur
         ServiceProviderBis.registerController(this);
     }
-    
+
+    public void handleAdd(){return;}
+
+    public void handleModify(){return;}
+
+    public void handleDelete(){return;}
+
     public void refresh() {
         refreshWorkshopList();
     }

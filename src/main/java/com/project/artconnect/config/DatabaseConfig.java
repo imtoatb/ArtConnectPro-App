@@ -7,5 +7,5 @@ package com.project.artconnect.config;
 public class DatabaseConfig {
     public static final String URL = "jdbc:mysql://localhost:3306/artconnect";
     public static final String USER = "root";
-    public static final String PASSWORD = "#Li87_Ne53"; // CHANGE ME
+    public static final String PASSWORD = "M2S3_database"; // CHANGE ME
 }

@@ -54,8 +54,12 @@ public class ArtworkController {
         deleteButton.disableProperty().bind(artworkTable.getSelectionModel().selectedItemProperty().isNull());
     }
 
+    public void handleAdd(){return;}
+
+    public void handleModify(){return;}
+
     @FXML
-    private void handleDeleteArtwork() {
+    public void handleDelete() {
         Artwork selectedArtwork = artworkTable.getSelectionModel().getSelectedItem();
         
         if (selectedArtwork == null) {

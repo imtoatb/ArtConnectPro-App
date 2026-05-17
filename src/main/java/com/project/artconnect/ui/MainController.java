@@ -7,6 +7,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.stage.Modality;
+
 import java.io.IOException;
 
 public class MainController {
